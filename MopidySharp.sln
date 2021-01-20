@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MopidySharp", "MopidySharp\MopidySharp.csproj", "{A91C60D4-42DD-4DAE-AF7A-FE79637FE6B1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MopidySharpTest", "MopidySharpTest\MopidySharpTest.csproj", "{32670820-D2E3-4BEE-BEDA-18CEEE202928}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MopidySharp.Test", "MopidySharp.Test\MopidySharp.Test.csproj", "{398BC7B6-22AE-4C89-9497-40017FD11C8E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{A91C60D4-42DD-4DAE-AF7A-FE79637FE6B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A91C60D4-42DD-4DAE-AF7A-FE79637FE6B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A91C60D4-42DD-4DAE-AF7A-FE79637FE6B1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{32670820-D2E3-4BEE-BEDA-18CEEE202928}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{32670820-D2E3-4BEE-BEDA-18CEEE202928}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{32670820-D2E3-4BEE-BEDA-18CEEE202928}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{32670820-D2E3-4BEE-BEDA-18CEEE202928}.Release|Any CPU.Build.0 = Release|Any CPU
+		{398BC7B6-22AE-4C89-9497-40017FD11C8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{398BC7B6-22AE-4C89-9497-40017FD11C8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{398BC7B6-22AE-4C89-9497-40017FD11C8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{398BC7B6-22AE-4C89-9497-40017FD11C8E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
