@@ -4,7 +4,7 @@ using Xunit;
 using Mopidy.Core;
 using MopidySharpTest.Bases;
 
-namespace MopidySharp.Test
+namespace MopidySharpTest.Core
 {
     public class HistoryTest : TestBase
     {
