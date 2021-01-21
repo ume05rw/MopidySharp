@@ -69,8 +69,8 @@ namespace Mopidy.Core
         /// <summary>
         /// Add tracks to the tracklist.
         /// </summary>
-        /// <param name="atPosition">position in tracklist to add tracks</param>
         /// <param name="uris">list of URIs for tracks to add</param>
+        /// <param name="atPosition">position in tracklist to add tracks</param>
         /// <returns></returns>
         /// <remarks>
         /// If uris is given instead of tracks, the URIs are looked up in the library
@@ -80,8 +80,8 @@ namespace Mopidy.Core
         /// the tracks are appended to the end of the tracklist.
         /// </remarks>
         public static async Task<(bool Succeeded, TlTrack[] Result)> Add(
-            int? atPosition = null,
-            string[] uris = null
+            string[] uris,
+            int? atPosition = null
         )
         {
             var request = JsonRpcFactory.CreateRequest(
@@ -109,6 +109,27 @@ namespace Mopidy.Core
         }
 
         /// <summary>
+        /// Add tracks to the tracklist.
+        /// </summary>
+        /// <param name="uri">URI for track to add</param>
+        /// <param name="atPosition">position in tracklist to add track</param>
+        /// <returns></returns>
+        /// <remarks>
+        /// If uris is given instead of tracks, the URIs are looked up in the library
+        /// and the resulting tracks are added to the tracklist.
+        /// If at_position is given, the tracks are inserted at the given position
+        /// in the tracklist.If at_position is not given,
+        /// the tracks are appended to the end of the tracklist.
+        /// </remarks>
+        public static Task<(bool Succeeded, TlTrack[] Result)> Add(
+            string uri,
+            int? atPosition = null
+        )
+        {
+            return Tracklist.Add(new string[] { uri }, atPosition);
+        }
+
+        /// <summary>
         /// Remove the matching tracks from the tracklist.
         /// </summary>
         /// <param name="criteria">one or more rules to match by</param>
@@ -132,6 +153,48 @@ namespace Mopidy.Core
             var result = JArray.FromObject(response.Result).ToObject<TlTrack[]>();
 
             return (true, result);
+        }
+
+        /// <summary>
+        /// Remove the matching tracks from the tracklist.
+        /// </summary>
+        /// <param name="tlId">one or more rules to match by</param>
+        /// <param name="uri">one or more rules to match by</param>
+        /// <returns></returns>
+        public static Task<(bool Succeeded, TlTrack[] Result)> Remove(
+            int[] tlId = null,
+            string[] uri = null
+        )
+        {
+            var criteria = new Criteria()
+            {
+                TlId = tlId,
+                Uri = uri
+            };
+
+            return Tracklist.Remove(criteria);
+        }
+
+        /// <summary>
+        /// Remove the matching tracks from the tracklist.
+        /// </summary>
+        /// <param name="tlId">one or more rules to match by</param>
+        /// <param name="uri">one or more rules to match by</param>
+        /// <returns></returns>
+        public static Task<(bool Succeeded, TlTrack[] Result)> Remove(
+            int? tlId = null,
+            string uri = null
+        )
+        {
+            var criteria = new Criteria();
+
+            if (tlId != null)
+                criteria.TlId = new int[] { (int)tlId };
+
+            if (uri != null)
+                criteria.Uri = new string[] { uri };
+
+            return Tracklist.Remove(criteria);
         }
 
         /// <summary>
@@ -416,6 +479,59 @@ namespace Mopidy.Core
             var result = JArray.FromObject(response.Result).ToObject<TlTrack[]>();
 
             return (true, result);
+        }
+
+        /// <summary>
+        /// Filter the tracklist by the given criteria.
+        /// </summary>
+        /// <param name="tlId">one or more rules to match by</param>
+        /// <param name="uri">one or more rules to match by</param>
+        /// <returns></returns>
+        /// <remarks>
+        /// Each rule in the criteria consists of a model field
+        /// and a list of values to compare it against.
+        /// If the model field matches any of the values, it may be returned.
+        /// Only tracks that match all the given criteria are returned.
+        /// </remarks>
+        public static Task<(bool Succeeded, TlTrack[] Result)> Filter(
+            int[] tlId = null,
+            string[] uri = null
+        )
+        {
+            var criteria = new Criteria()
+            {
+                TlId = tlId,
+                Uri = uri
+            };
+
+            return Tracklist.Filter(criteria);
+        }
+
+        /// <summary>
+        /// Filter the tracklist by the given criteria.
+        /// </summary>
+        /// <param name="tlId">one or more rules to match by</param>
+        /// <param name="uri">one or more rules to match by</param>
+        /// <returns></returns>
+        /// <remarks>
+        /// Each rule in the criteria consists of a model field
+        /// and a list of values to compare it against.
+        /// If the model field matches any of the values, it may be returned.
+        /// Only tracks that match all the given criteria are returned.
+        /// </remarks>
+        public static Task<(bool Succeeded, TlTrack[] Result)> Filter(
+            int? tlId = null,
+            string uri = null
+        )
+        {
+            var criteria = new Criteria();
+
+            if (tlId != null)
+                criteria.TlId = new int[] { (int)tlId };
+            if (uri != null)
+                criteria.Uri = new string[] { uri };
+
+            return Tracklist.Filter(criteria);
         }
 
         #endregion "Current state"

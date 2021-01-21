@@ -80,7 +80,7 @@ namespace Mopidy.Core
             public string[] Performer { get; set; } = null;
 
             [JsonProperty("track_no")]
-            public int[] track_no { get; set; } = null;
+            public int[] TrackNo { get; set; } = null;
 
             [JsonProperty("genre")]
             public string[] Genre { get; set; } = null;
@@ -175,6 +175,139 @@ namespace Mopidy.Core
             var result = JArray.FromObject(response.Result).ToObject<SearchResult[]>();
 
             return (true, result);
+        }
+
+        /// <summary>
+        /// Search the library for tracks where field contains values.
+        /// </summary>
+        /// <param name="queryUri">one or more queries to search for</param>
+        /// <param name="queryTrackName">one or more queries to search for</param>
+        /// <param name="queryAlbum">one or more queries to search for</param>
+        /// <param name="queryArtist">one or more queries to search for</param>
+        /// <param name="queryAlbumArtist">one or more queries to search for</param>
+        /// <param name="queryComposer">one or more queries to search for</param>
+        /// <param name="queryPerformer">one or more queries to search for</param>
+        /// <param name="queryTrackNo">one or more queries to search for</param>
+        /// <param name="queryGenre">one or more queries to search for</param>
+        /// <param name="queryDate">one or more queries to search for</param>
+        /// <param name="queryComment">one or more queries to search for</param>
+        /// <param name="queryAny">one or more queries to search for</param>
+        /// <param name="uris">zero or more URI roots to limit the search to</param>
+        /// <param name="exact">if the search should use exact matching</param>
+        /// <returns></returns>
+        /// <remarks>
+        /// field can be one of uri, track_name, album, artist, albumartist, composer,
+        /// performer, track_no, genre, date, comment, or any.
+        /// If uris is given, the search is limited to results from within the URI roots.
+        /// For example passing uris=['file:'] will limit the search to the local backend.
+        /// </remarks>
+        public static Task<(bool Succeeded, SearchResult[] Result)> Search(
+            string[] queryUri = null,
+            string[] queryTrackName = null,
+            string[] queryAlbum = null,
+            string[] queryArtist = null,
+            string[] queryAlbumArtist = null,
+            string[] queryComposer = null,
+            string[] queryPerformer = null,
+            int[] queryTrackNo = null,
+            string[] queryGenre = null,
+            string[] queryDate = null,
+            string[] queryComment = null,
+            string[] queryAny = null,
+
+            string[] uris = null,
+            bool exact = false
+        )
+        {
+            var query = new Query()
+            {
+                Uri = queryUri,
+                TrackName = queryTrackName,
+                Album = queryAlbum,
+                Artist = queryArtist,
+                AlbumArtist = queryAlbumArtist,
+                Composer = queryComposer,
+                Performer = queryPerformer,
+                TrackNo = queryTrackNo,
+                Genre = queryGenre,
+                Date = queryDate,
+                Comment = queryComment,
+                Any = queryAny
+            };
+
+            return Library.Search(query, uris, exact);
+        }
+
+        /// <summary>
+        /// Search the library for tracks where field contains values.
+        /// </summary>
+        /// <param name="queryUri">one or more queries to search for</param>
+        /// <param name="queryTrackName">one or more queries to search for</param>
+        /// <param name="queryAlbum">one or more queries to search for</param>
+        /// <param name="queryArtist">one or more queries to search for</param>
+        /// <param name="queryAlbumArtist">one or more queries to search for</param>
+        /// <param name="queryComposer">one or more queries to search for</param>
+        /// <param name="queryPerformer">one or more queries to search for</param>
+        /// <param name="queryTrackNo">one or more queries to search for</param>
+        /// <param name="queryGenre">one or more queries to search for</param>
+        /// <param name="queryDate">one or more queries to search for</param>
+        /// <param name="queryComment">one or more queries to search for</param>
+        /// <param name="queryAny">one or more queries to search for</param>
+        /// <param name="uris">zero or more URI roots to limit the search to</param>
+        /// <param name="exact">if the search should use exact matching</param>
+        /// <returns></returns>
+        /// <remarks>
+        /// field can be one of uri, track_name, album, artist, albumartist, composer,
+        /// performer, track_no, genre, date, comment, or any.
+        /// If uris is given, the search is limited to results from within the URI roots.
+        /// For example passing uris=['file:'] will limit the search to the local backend.
+        /// </remarks>
+        public static Task<(bool Succeeded, SearchResult[] Result)> Search(
+            string queryUri = null,
+            string queryTrackName = null,
+            string queryAlbum = null,
+            string queryArtist = null,
+            string queryAlbumArtist = null,
+            string queryComposer = null,
+            string queryPerformer = null,
+            int? queryTrackNo = null,
+            string queryGenre = null,
+            string queryDate = null,
+            string queryComment = null,
+            string queryAny = null,
+
+            string[] uris = null,
+            bool exact = false
+        )
+        {
+            var query = new Query();
+
+            if (queryUri != null)
+                query.Uri = new string[] { queryUri };
+            if (queryTrackName != null)
+                query.TrackName = new string[] { queryTrackName };
+            if (queryAlbum != null)
+                query.Album = new string[] { queryAlbum };
+            if (queryArtist != null)
+                query.Artist = new string[] { queryArtist };
+            if (queryAlbumArtist != null)
+                query.AlbumArtist = new string[] { queryAlbumArtist };
+            if (queryComposer != null)
+                query.Composer = new string[] { queryComposer };
+            if (queryPerformer != null)
+                query.Performer = new string[] { queryPerformer };
+            if (queryTrackNo != null)
+                query.TrackNo = new int[] { (int)queryTrackNo };
+            if (queryGenre != null)
+                query.Genre = new string[] { queryGenre };
+            if (queryDate != null)
+                query.Date = new string[] { queryDate };
+            if (queryComment != null)
+                query.Comment = new string[] { queryComment };
+            if (queryAny != null)
+                query.Any = new string[] { queryAny };
+
+            return Library.Search(query, uris, exact);
         }
 
         /// <summary>
@@ -319,6 +452,131 @@ namespace Mopidy.Core
                 .ToObject<Dictionary<string, string[]>>();
 
             return (true, result);
+        }
+
+        /// <summary>
+        /// List distinct values for a given field from the library.
+        /// </summary>
+        /// <param name="field">One of track, artist, albumartist, album, composer, performer, date or genre.</param>
+        /// <param name="queryUri">Query to use for limiting results, see search() for details about the query format.</param>
+        /// <param name="queryTrackName">Query to use for limiting results, see search() for details about the query format.</param>
+        /// <param name="queryAlbum">Query to use for limiting results, see search() for details about the query format.</param>
+        /// <param name="queryArtist">Query to use for limiting results, see search() for details about the query format.</param>
+        /// <param name="queryAlbumArtist">Query to use for limiting results, see search() for details about the query format.</param>
+        /// <param name="queryComposer">Query to use for limiting results, see search() for details about the query format.</param>
+        /// <param name="queryPerformer">Query to use for limiting results, see search() for details about the query format.</param>
+        /// <param name="queryTrackNo">Query to use for limiting results, see search() for details about the query format.</param>
+        /// <param name="queryGenre">Query to use for limiting results, see search() for details about the query format.</param>
+        /// <param name="queryDate">Query to use for limiting results, see search() for details about the query format.</param>
+        /// <param name="queryComment">Query to use for limiting results, see search() for details about the query format.</param>
+        /// <param name="queryAny">Query to use for limiting results, see search() for details about the query format.</param>
+        /// <returns></returns>
+        /// <remarks>
+        /// This has mainly been added to support the list commands the MPD protocol
+        /// supports in a more sane fashion.
+        /// Other frontends are not recommended to use this method.
+        /// </remarks>
+        public static Task<(bool Succeeded, Dictionary<string, string[]> Result)> GetDistinct(
+            FieldType field,
+            string[] queryUri = null,
+            string[] queryTrackName = null,
+            string[] queryAlbum = null,
+            string[] queryArtist = null,
+            string[] queryAlbumArtist = null,
+            string[] queryComposer = null,
+            string[] queryPerformer = null,
+            int[] queryTrackNo = null,
+            string[] queryGenre = null,
+            string[] queryDate = null,
+            string[] queryComment = null,
+            string[] queryAny = null
+        )
+        {
+            var query = new Query()
+            {
+                Uri = queryUri,
+                TrackName = queryTrackName,
+                Album = queryAlbum,
+                Artist = queryArtist,
+                AlbumArtist = queryAlbumArtist,
+                Composer = queryComposer,
+                Performer = queryPerformer,
+                TrackNo = queryTrackNo,
+                Genre = queryGenre,
+                Date = queryDate,
+                Comment = queryComment,
+                Any = queryAny
+            };
+
+            return Library.GetDistinct(field, query);
+        }
+
+        /// <summary>
+        /// List distinct values for a given field from the library.
+        /// </summary>
+        /// <param name="field">One of track, artist, albumartist, album, composer, performer, date or genre.</param>
+        /// <param name="queryUri">Query to use for limiting results, see search() for details about the query format.</param>
+        /// <param name="queryTrackName">Query to use for limiting results, see search() for details about the query format.</param>
+        /// <param name="queryAlbum">Query to use for limiting results, see search() for details about the query format.</param>
+        /// <param name="queryArtist">Query to use for limiting results, see search() for details about the query format.</param>
+        /// <param name="queryAlbumArtist">Query to use for limiting results, see search() for details about the query format.</param>
+        /// <param name="queryComposer">Query to use for limiting results, see search() for details about the query format.</param>
+        /// <param name="queryPerformer">Query to use for limiting results, see search() for details about the query format.</param>
+        /// <param name="queryTrackNo">Query to use for limiting results, see search() for details about the query format.</param>
+        /// <param name="queryGenre">Query to use for limiting results, see search() for details about the query format.</param>
+        /// <param name="queryDate">Query to use for limiting results, see search() for details about the query format.</param>
+        /// <param name="queryComment">Query to use for limiting results, see search() for details about the query format.</param>
+        /// <param name="queryAny">Query to use for limiting results, see search() for details about the query format.</param>
+        /// <returns></returns>
+        /// <remarks>
+        /// This has mainly been added to support the list commands the MPD protocol
+        /// supports in a more sane fashion.
+        /// Other frontends are not recommended to use this method.
+        /// </remarks>
+        public static Task<(bool Succeeded, Dictionary<string, string[]> Result)> GetDistinct(
+            FieldType field,
+            string queryUri = null,
+            string queryTrackName = null,
+            string queryAlbum = null,
+            string queryArtist = null,
+            string queryAlbumArtist = null,
+            string queryComposer = null,
+            string queryPerformer = null,
+            int? queryTrackNo = null,
+            string queryGenre = null,
+            string queryDate = null,
+            string queryComment = null,
+            string queryAny = null
+        )
+        {
+            var query = new Query();
+
+            if (queryUri != null)
+                query.Uri = new string[] { queryUri };
+            if (queryTrackName != null)
+                query.TrackName = new string[] { queryTrackName };
+            if (queryAlbum != null)
+                query.Album = new string[] { queryAlbum };
+            if (queryArtist != null)
+                query.Artist = new string[] { queryArtist };
+            if (queryAlbumArtist != null)
+                query.AlbumArtist = new string[] { queryAlbumArtist };
+            if (queryComposer != null)
+                query.Composer = new string[] { queryComposer };
+            if (queryPerformer != null)
+                query.Performer = new string[] { queryPerformer };
+            if (queryTrackNo != null)
+                query.TrackNo = new int[] { (int)queryTrackNo };
+            if (queryGenre != null)
+                query.Genre = new string[] { queryGenre };
+            if (queryDate != null)
+                query.Date = new string[] { queryDate };
+            if (queryComment != null)
+                query.Comment = new string[] { queryComment };
+            if (queryAny != null)
+                query.Any = new string[] { queryAny };
+
+            return Library.GetDistinct(field, query);
         }
 
         private static string GetFieldTypeString(FieldType fieldType)
