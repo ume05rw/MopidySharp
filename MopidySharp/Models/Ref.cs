@@ -27,14 +27,13 @@ namespace Mopidy.Models
             Directory
         }
 
-        public class TypeConverter: JsonConverter
+        internal class RefTypeConverter: JsonConverter
         {
             public override bool CanWrite => true;
             public override bool CanRead => true;
             public override bool CanConvert(Type objectType)
-            {
-                return objectType == typeof(RefType);
-            }
+                => (objectType == typeof(RefType));
+
             public override void WriteJson(
                 JsonWriter writer,
                 object value,
@@ -114,7 +113,7 @@ namespace Mopidy.Models
         /// The object type, e.g. “artist”, “album”, “track”, “playlist”, “directory”. Read-only.
         /// </summary>
         [JsonProperty("type")]
-        [JsonConverter(typeof(TypeConverter))]
+        [JsonConverter(typeof(RefTypeConverter))]
         public RefType Type;
 
         /// <summary>

@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Mopidy.Core
@@ -58,42 +59,108 @@ namespace Mopidy.Core
         /// </summary>
         public class Query
         {
+            internal class TrackNoConverter : JsonConverter
+            {
+                public override bool CanWrite => true;
+                public override bool CanRead => true;
+
+                public override bool CanConvert(Type objectType)
+                    => (objectType == typeof(int));
+
+                public override object ReadJson(
+                    JsonReader reader,
+                    Type objectType,
+                    object existingValue,
+                    JsonSerializer serializer
+                )
+                {
+                    var result = new List<int>();
+
+                    if (reader.Value == null)
+                        return result;
+
+                    try
+                    {
+                        var intStrings = JArray.FromObject(reader.Value).ToObject<string[]>();
+
+                        foreach (var intStr in intStrings)
+                        {
+                            if (string.IsNullOrEmpty(intStr))
+                                continue;
+
+                            if (int.TryParse(intStr, out int value))
+                                result.Add(value);
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        return result;
+                    }
+
+                    return result;
+                }
+
+                public override void WriteJson(
+                    JsonWriter writer,
+                    object value,
+                    JsonSerializer serializer
+                )
+                {
+                    try
+                    {
+                        var list = (List<int>)value;
+                        var stringList = list.Select(e => e.ToString()).ToArray();
+                        var jsonArray = JsonConvert.SerializeObject(stringList);
+                        writer.WriteValue(jsonArray);
+                    }
+                    catch (Exception)
+                    {
+                        var dummy = JsonConvert.SerializeObject(new string[] { });
+                        writer.WriteValue(dummy);
+                    }
+                }
+            }
+
             [JsonProperty("uri")]
-            public string[] Uri { get; set; } = null;
+            public List<string> Uri { get; set; } = new List<string>();
 
             [JsonProperty("track_name")]
-            public string[] TrackName { get; set; } = null;
+            public List<string> TrackName { get; set; } = new List<string>();
 
             [JsonProperty("album")]
-            public string[] Album { get; set; } = null;
+            public List<string> Album { get; set; } = new List<string>();
 
             [JsonProperty("artist")]
-            public string[] Artist { get; set; } = null;
+            public List<string> Artist { get; set; } = new List<string>();
 
             [JsonProperty("albumartist")]
-            public string[] AlbumArtist { get; set; } = null;
+            public List<string> AlbumArtist { get; set; } = new List<string>();
 
             [JsonProperty("composer")]
-            public string[] Composer { get; set; } = null;
+            public List<string> Composer { get; set; } = new List<string>();
 
             [JsonProperty("performer")]
-            public string[] Performer { get; set; } = null;
+            public List<string> Performer { get; set; } = new List<string>();
 
+            //[JsonConverter(typeof(TrackNoConverter))]
+            //public List<int> TrackNo { get; set; } = new List<int>();
             [JsonProperty("track_no")]
-            public int[] TrackNo { get; set; } = null;
+            public List<string> TrackNo { get; set; } = new List<string>();
+
 
             [JsonProperty("genre")]
-            public string[] Genre { get; set; } = null;
+            public List<string> Genre { get; set; } = new List<string>();
 
             [JsonProperty("date")]
-            public string[] Date { get; set; } = null;
+            public List<string> Date { get; set; } = new List<string>();
 
             [JsonProperty("comment")]
-            public string[] Comment { get; set; } = null;
+            public List<string> Comment { get; set; } = new List<string>();
 
             [JsonProperty("any")]
-            public string[] Any { get; set; } = null;
+            public List<string> Any { get; set; } = new List<string>();
         }
+
 
         private static readonly Models.JsonRpcs.Query _query = Models.JsonRpcs.Query.Get();
 
@@ -158,7 +225,8 @@ namespace Mopidy.Core
                 {
                     query,
                     uris,
-                    exact
+                    exact,
+                    limit = 1000
                 }
             );
 
@@ -209,7 +277,7 @@ namespace Mopidy.Core
             string[] queryAlbumArtist = null,
             string[] queryComposer = null,
             string[] queryPerformer = null,
-            int[] queryTrackNo = null,
+            string[] queryTrackNo = null,
             string[] queryGenre = null,
             string[] queryDate = null,
             string[] queryComment = null,
@@ -219,21 +287,32 @@ namespace Mopidy.Core
             bool exact = false
         )
         {
-            var query = new Query()
-            {
-                Uri = queryUri,
-                TrackName = queryTrackName,
-                Album = queryAlbum,
-                Artist = queryArtist,
-                AlbumArtist = queryAlbumArtist,
-                Composer = queryComposer,
-                Performer = queryPerformer,
-                TrackNo = queryTrackNo,
-                Genre = queryGenre,
-                Date = queryDate,
-                Comment = queryComment,
-                Any = queryAny
-            };
+            var query = new Query();
+
+            if (queryUri != null && 0 < queryUri.Length)
+                query.Uri.AddRange(queryUri);
+            if (queryTrackName != null && 0 < queryTrackName.Length)
+                query.TrackName.AddRange(queryTrackName);
+            if (queryTrackName != null && 0 < queryTrackName.Length)
+                query.Album.AddRange(queryAlbum);
+            if (queryArtist != null && 0 < queryArtist.Length)
+                query.Artist.AddRange(queryArtist);
+            if (queryAlbumArtist != null && 0 < queryAlbumArtist.Length)
+                query.AlbumArtist.AddRange(queryAlbumArtist);
+            if (queryComposer != null && 0 < queryComposer.Length)
+                query.Composer.AddRange(queryComposer);
+            if (queryPerformer != null && 0 < queryPerformer.Length)
+                query.Performer.AddRange(queryPerformer);
+            if (queryTrackNo != null && 0 < queryTrackNo.Length)
+                query.TrackNo.AddRange(queryTrackNo);
+            if (queryGenre != null && 0 < queryGenre.Length)
+                query.Genre.AddRange(queryGenre);
+            if (queryDate != null && 0 < queryDate.Length)
+                query.Date.AddRange(queryDate);
+            if (queryComment != null && 0 < queryComment.Length)
+                query.Comment.AddRange(queryComment);
+            if (queryAny != null && 0 < queryAny.Length)
+                query.Any.AddRange(queryAny);
 
             return Library.Search(query, uris, exact);
         }
@@ -270,7 +349,7 @@ namespace Mopidy.Core
             string queryAlbumArtist = null,
             string queryComposer = null,
             string queryPerformer = null,
-            int? queryTrackNo = null,
+            string queryTrackNo = null,
             string queryGenre = null,
             string queryDate = null,
             string queryComment = null,
@@ -283,29 +362,29 @@ namespace Mopidy.Core
             var query = new Query();
 
             if (queryUri != null)
-                query.Uri = new string[] { queryUri };
+                query.Uri.Add(queryUri);
             if (queryTrackName != null)
-                query.TrackName = new string[] { queryTrackName };
+                query.TrackName.Add(queryTrackName);
             if (queryAlbum != null)
-                query.Album = new string[] { queryAlbum };
+                query.Album.Add(queryAlbum);
             if (queryArtist != null)
-                query.Artist = new string[] { queryArtist };
+                query.Artist.Add(queryArtist);
             if (queryAlbumArtist != null)
-                query.AlbumArtist = new string[] { queryAlbumArtist };
+                query.AlbumArtist.Add(queryAlbumArtist);
             if (queryComposer != null)
-                query.Composer = new string[] { queryComposer };
+                query.Composer.Add(queryComposer);
             if (queryPerformer != null)
-                query.Performer = new string[] { queryPerformer };
+                query.Performer.Add(queryPerformer);
             if (queryTrackNo != null)
-                query.TrackNo = new int[] { (int)queryTrackNo };
+                query.TrackNo.Add(queryTrackNo);
             if (queryGenre != null)
-                query.Genre = new string[] { queryGenre };
+                query.Genre.Add(queryGenre);
             if (queryDate != null)
-                query.Date = new string[] { queryDate };
+                query.Date.Add(queryDate);
             if (queryComment != null)
-                query.Comment = new string[] { queryComment };
+                query.Comment.Add(queryComment);
             if (queryAny != null)
-                query.Any = new string[] { queryAny };
+                query.Any.Add(queryAny);
 
             return Library.Search(query, uris, exact);
         }
@@ -485,28 +564,39 @@ namespace Mopidy.Core
             string[] queryAlbumArtist = null,
             string[] queryComposer = null,
             string[] queryPerformer = null,
-            int[] queryTrackNo = null,
+            string[] queryTrackNo = null,
             string[] queryGenre = null,
             string[] queryDate = null,
             string[] queryComment = null,
             string[] queryAny = null
         )
         {
-            var query = new Query()
-            {
-                Uri = queryUri,
-                TrackName = queryTrackName,
-                Album = queryAlbum,
-                Artist = queryArtist,
-                AlbumArtist = queryAlbumArtist,
-                Composer = queryComposer,
-                Performer = queryPerformer,
-                TrackNo = queryTrackNo,
-                Genre = queryGenre,
-                Date = queryDate,
-                Comment = queryComment,
-                Any = queryAny
-            };
+            var query = new Query();
+
+            if (queryUri != null && 0 < queryUri.Length)
+                query.Uri.AddRange(queryUri);
+            if (queryTrackName != null && 0 < queryTrackName.Length)
+                query.TrackName.AddRange(queryTrackName);
+            if (queryTrackName != null && 0 < queryTrackName.Length)
+                query.Album.AddRange(queryAlbum);
+            if (queryArtist != null && 0 < queryArtist.Length)
+                query.Artist.AddRange(queryArtist);
+            if (queryAlbumArtist != null && 0 < queryAlbumArtist.Length)
+                query.AlbumArtist.AddRange(queryAlbumArtist);
+            if (queryComposer != null && 0 < queryComposer.Length)
+                query.Composer.AddRange(queryComposer);
+            if (queryPerformer != null && 0 < queryPerformer.Length)
+                query.Performer.AddRange(queryPerformer);
+            if (queryTrackNo != null && 0 < queryTrackNo.Length)
+                query.TrackNo.AddRange(queryTrackNo);
+            if (queryGenre != null && 0 < queryGenre.Length)
+                query.Genre.AddRange(queryGenre);
+            if (queryDate != null && 0 < queryDate.Length)
+                query.Date.AddRange(queryDate);
+            if (queryComment != null && 0 < queryComment.Length)
+                query.Comment.AddRange(queryComment);
+            if (queryAny != null && 0 < queryAny.Length)
+                query.Any.AddRange(queryAny);
 
             return Library.GetDistinct(field, query);
         }
@@ -542,7 +632,7 @@ namespace Mopidy.Core
             string queryAlbumArtist = null,
             string queryComposer = null,
             string queryPerformer = null,
-            int? queryTrackNo = null,
+            string queryTrackNo = null,
             string queryGenre = null,
             string queryDate = null,
             string queryComment = null,
@@ -552,29 +642,29 @@ namespace Mopidy.Core
             var query = new Query();
 
             if (queryUri != null)
-                query.Uri = new string[] { queryUri };
+                query.Uri.Add(queryUri);
             if (queryTrackName != null)
-                query.TrackName = new string[] { queryTrackName };
+                query.TrackName.Add(queryTrackName);
             if (queryAlbum != null)
-                query.Album = new string[] { queryAlbum };
+                query.Album.Add(queryAlbum);
             if (queryArtist != null)
-                query.Artist = new string[] { queryArtist };
+                query.Artist.Add(queryArtist);
             if (queryAlbumArtist != null)
-                query.AlbumArtist = new string[] { queryAlbumArtist };
+                query.AlbumArtist.Add(queryAlbumArtist);
             if (queryComposer != null)
-                query.Composer = new string[] { queryComposer };
+                query.Composer.Add(queryComposer);
             if (queryPerformer != null)
-                query.Performer = new string[] { queryPerformer };
+                query.Performer.Add(queryPerformer);
             if (queryTrackNo != null)
-                query.TrackNo = new int[] { (int)queryTrackNo };
+                query.TrackNo.Add(queryTrackNo);
             if (queryGenre != null)
-                query.Genre = new string[] { queryGenre };
+                query.Genre.Add(queryGenre);
             if (queryDate != null)
-                query.Date = new string[] { queryDate };
+                query.Date.Add(queryDate);
             if (queryComment != null)
-                query.Comment = new string[] { queryComment };
+                query.Comment.Add(queryComment);
             if (queryAny != null)
-                query.Any = new string[] { queryAny };
+                query.Any.Add(queryAny);
 
             return Library.GetDistinct(field, query);
         }
