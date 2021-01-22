@@ -1,8 +1,7 @@
-using System;
-using System.Threading.Tasks;
-using Xunit;
 using Mopidy.Core;
 using MopidySharpTest.Bases;
+using System.Threading.Tasks;
+using Xunit;
 
 namespace MopidySharpTest.Core
 {
