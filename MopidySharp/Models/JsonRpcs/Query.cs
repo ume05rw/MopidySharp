@@ -68,12 +68,13 @@ namespace Mopidy.Models.JsonRpcs
 
                 if (json == null || string.IsNullOrEmpty(json))
                 {
-                    // 通知の時は応答JSON自体が無いことがある。
-                    return null;
+                    // The response of the void method is empty.
+                    return new JsonRpcParamsResponse();
                 }
                 else
                 {
                     var response = JsonConvert.DeserializeObject<JsonRpcParamsResponse>(json);
+
                     return response;
                 }
             }

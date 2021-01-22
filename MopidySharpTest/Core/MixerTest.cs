@@ -1,4 +1,5 @@
 ﻿using Mopidy.Core;
+using MopidySharpTest.Bases;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,7 +8,7 @@ using Xunit;
 
 namespace MopidySharpTest.Core
 {
-    public class MixerTest
+    public class MixerTest : TestBase
     {
         [Fact]
         public async Task GetMuteTest()
@@ -69,8 +70,6 @@ namespace MopidySharpTest.Core
             var res6 = await Mixer.GetVolume();
             Assert.True(res6.Succeeded);
             Assert.Equal(50, res6.Result);
-
-            var tmp = await Library.Search(queryAlbum: new string[] { });
         }
     }
 }

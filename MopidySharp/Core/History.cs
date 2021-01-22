@@ -38,11 +38,30 @@ namespace Mopidy.Core
                 return (false, null);
             }
 
-            // TODO: 注意、戻り値の型を確認する。
             // 戻り値の型は、[ JObject | JArray | JValue | null ] のどれか。
             // 型が違うとパースエラーになる。
-            var result = JObject.FromObject(response.Result)
-                .ToObject<Dictionary<long, Ref>>();
+            var array = JArray.FromObject(response.Result);
+            var result = new Dictionary<long, Ref>();
+
+            foreach (var child in array.Children())
+            {
+                if (child.Type != JTokenType.Array)
+                    continue;
+
+                long key = -1;
+                Ref value = null;
+
+                foreach (var elem in child.Children())
+                {
+                    if (elem.Type == JTokenType.Integer)
+                        key = elem.Value<long>();
+                    if (elem.Type == JTokenType.Object)
+                        value = elem.ToObject<Ref>();
+                }
+
+                if (key != -1 && value != null)
+                    result.Add(key, value);
+            }
 
             return (true, result);
         }
