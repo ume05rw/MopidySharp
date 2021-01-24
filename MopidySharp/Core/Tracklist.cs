@@ -2,6 +2,7 @@ using Mopidy.Models;
 using Mopidy.Models.JsonRpcs;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Mopidy.Core
@@ -54,11 +55,39 @@ namespace Mopidy.Core
         /// </summary>
         public class Criteria
         {
-            [JsonProperty("tlid")]
-            public int[] TlId { get; set; } = null;
+            [JsonProperty("tlid", NullValueHandling = NullValueHandling.Ignore)]
+            public List<int> TlId { get; set; } = new List<int>();
 
-            [JsonProperty("uri")]
-            public string[] Uri { get; set; } = null;
+            [JsonProperty("uri", NullValueHandling = NullValueHandling.Ignore)]
+            public List<string> Uri { get; set; } = new List<string>();
+
+            public void Clear()
+            {
+                if (this.TlId == null)
+                    this.TlId = new List<int>();
+                else
+                    this.TlId.Clear();
+
+                if (this.Uri == null)
+                    this.Uri = new List<string>();
+                else
+                    this.Uri.Clear();
+            }
+
+            public Criteria Format()
+            {
+                var result = new Criteria()
+                {
+                    TlId = (this.TlId != null && 0 < this.TlId.Count)
+                        ? this.TlId
+                        : null,
+                    Uri = (this.Uri != null && 0 < this.Uri.Count)
+                        ? this.Uri
+                        : null
+                };
+
+                return result;
+            }
         }
 
 
@@ -138,7 +167,10 @@ namespace Mopidy.Core
             Criteria criteria
         )
         {
-            var request = JsonRpcFactory.CreateRequest(Tracklist.MethodRemove, criteria);
+            var request = JsonRpcFactory.CreateRequest(
+                Tracklist.MethodRemove,
+                criteria?.Format()
+            );
 
             var response = await Tracklist._query.Exec(request);
 
@@ -166,11 +198,11 @@ namespace Mopidy.Core
             string[] uri = null
         )
         {
-            var criteria = new Criteria()
-            {
-                TlId = tlId,
-                Uri = uri
-            };
+            var criteria = new Criteria();
+            if (tlId != null && 0 < tlId.Length)
+                criteria.TlId.AddRange(tlId);
+            if (uri != null && 0 < uri.Length)
+                criteria.Uri.AddRange(uri);
 
             return Tracklist.Remove(criteria);
         }
@@ -189,10 +221,10 @@ namespace Mopidy.Core
             var criteria = new Criteria();
 
             if (tlId != null)
-                criteria.TlId = new int[] { (int)tlId };
+                criteria.TlId.Add((int)tlId);
 
             if (uri != null)
-                criteria.Uri = new string[] { uri };
+                criteria.Uri.Add(uri);
 
             return Tracklist.Remove(criteria);
         }
@@ -464,7 +496,10 @@ namespace Mopidy.Core
             Criteria criteria
         )
         {
-            var request = JsonRpcFactory.CreateRequest(Tracklist.MethodFilter, criteria);
+            var request = JsonRpcFactory.CreateRequest(
+                Tracklist.MethodFilter,
+                criteria?.Format()
+            );
 
             var response = await Tracklist._query.Exec(request);
 
@@ -498,11 +533,11 @@ namespace Mopidy.Core
             string[] uri = null
         )
         {
-            var criteria = new Criteria()
-            {
-                TlId = tlId,
-                Uri = uri
-            };
+            var criteria = new Criteria();
+            if (tlId != null && 0 < tlId.Length)
+                criteria.TlId.AddRange(tlId);
+            if (uri != null && 0 < uri.Length)
+                criteria.Uri.AddRange(uri);
 
             return Tracklist.Filter(criteria);
         }
@@ -527,9 +562,9 @@ namespace Mopidy.Core
             var criteria = new Criteria();
 
             if (tlId != null)
-                criteria.TlId = new int[] { (int)tlId };
+                criteria.TlId.Add((int)tlId);
             if (uri != null)
-                criteria.Uri = new string[] { uri };
+                criteria.Uri.Add(uri);
 
             return Tracklist.Filter(criteria);
         }

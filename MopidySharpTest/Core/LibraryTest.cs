@@ -223,7 +223,7 @@ namespace MopidySharpTest.Core
 
             var res2 = await Library.Search(
                 queryTrackName: "Feel The Breeze",
-                queryAlbum: "Air Supply",
+                queryAlbum: "Strangers In Love",
                 queryArtist: "Air Supply",
                 queryAlbumArtist: "Air Supply",
                 queryTrackNo: 1,
