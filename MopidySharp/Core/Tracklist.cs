@@ -275,7 +275,7 @@ namespace Mopidy.Core
         /// Move the tracks in the slice [start:end] to to_position.
         /// </summary>
         /// <param name="start">position of first track to move</param>
-        /// <param name="end">position after last track to move</param>
+        /// <param name="end">position after last track to move ** end track is not target! **</param>
         /// <param name="toPosition">new position for the tracks</param>
         /// <returns></returns>
         public static async Task<bool> Move(int start, int end, int toPosition)
@@ -305,8 +305,8 @@ namespace Mopidy.Core
         /// Shuffles the entire tracklist.
         /// If start and end is given only shuffles the slice [start:end].
         /// </summary>
-        /// <param name="start"></param>
-        /// <param name="end"></param>
+        /// <param name="start">position of first track to shuffle</param>
+        /// <param name="end">position after last track to shuffle ** end track is not target! **</param>
         /// <returns></returns>
         public static async Task<bool> Shuffle(int? start = null, int? end = null)
         {
@@ -360,23 +360,22 @@ namespace Mopidy.Core
         /// <summary>
         /// The position of the given track in the tracklist.
         /// </summary>
-        /// <param name="tlTrack">the track to find the index of</param>
         /// <param name="tlId">TLID of the track to find the index of</param>
         /// <returns></returns>
         /// <remarks>
+        /// ** Argument tl_track is not works **
+        ///
         /// If neither tl_track or tlid is given we return the index of
         /// the currently playing track.
         /// </remarks>
         public static async Task<(bool Succeeded, int? Result)> Index(
-            TlTrack tlTrack = null,
-            int? tlId = null
+            int tlId
         )
         {
             var request = JsonRpcFactory.CreateRequest(
                 Tracklist.MethodIndex,
                 new
                 {
-                    tl_track = tlTrack,
                     tlid = tlId
                 }
             );
@@ -473,7 +472,7 @@ namespace Mopidy.Core
         /// Returns a slice of the tracklist, limited by the given start and end positions.
         /// </summary>
         /// <param name="start">position of first track to include in slice</param>
-        /// <param name="end">position after last track to include in slice</param>
+        /// <param name="end">position after last track to include in slice ** end track is not target! **</param>
         /// <returns></returns>
         public static async Task<(bool Succeeded, TlTrack[] Result)> Slice(
             int start,
