@@ -73,9 +73,22 @@ namespace Mopidy.Models.JsonRpcs
                 }
                 else
                 {
-                    var response = JsonConvert.DeserializeObject<JsonRpcParamsResponse>(json);
+                    try
+                    {
+                        var response = JsonConvert.DeserializeObject<JsonRpcParamsResponse>(json);
 
-                    return response;
+                        return response;
+                    }
+                    catch (Exception)
+                    {
+                        // Response is NOT JSON.
+                        var result = new JsonRpcParamsResponse()
+                        {
+                            Error = json
+                        };
+
+                        return result;
+                    }
                 }
             }
         }
