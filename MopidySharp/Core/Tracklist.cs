@@ -163,7 +163,7 @@ namespace Mopidy.Core
         /// </summary>
         /// <param name="criteria">one or more rules to match by</param>
         /// <returns></returns>
-        public static async Task<(bool Succeeded, TlTrack[] Result)> Remove(
+        private static async Task<(bool Succeeded, TlTrack[] Result)> Remove(
             Criteria criteria
         )
         {
@@ -191,16 +191,28 @@ namespace Mopidy.Core
         /// Remove the matching tracks from the tracklist.
         /// </summary>
         /// <param name="tlId">one or more rules to match by</param>
-        /// <param name="uri">one or more rules to match by</param>
         /// <returns></returns>
         public static Task<(bool Succeeded, TlTrack[] Result)> Remove(
-            int[] tlId = null,
-            string[] uri = null
+            int[] tlId
         )
         {
             var criteria = new Criteria();
             if (tlId != null && 0 < tlId.Length)
                 criteria.TlId.AddRange(tlId);
+
+            return Tracklist.Remove(criteria);
+        }
+
+        /// <summary>
+        /// Remove the matching tracks from the tracklist.
+        /// </summary>
+        /// <param name="uri">one or more rules to match by</param>
+        /// <returns></returns>
+        public static Task<(bool Succeeded, TlTrack[] Result)> Remove(
+            string[] uri
+        )
+        {
+            var criteria = new Criteria();
             if (uri != null && 0 < uri.Length)
                 criteria.Uri.AddRange(uri);
 
@@ -214,15 +226,26 @@ namespace Mopidy.Core
         /// <param name="uri">one or more rules to match by</param>
         /// <returns></returns>
         public static Task<(bool Succeeded, TlTrack[] Result)> Remove(
-            int? tlId = null,
-            string uri = null
+            int tlId
         )
         {
             var criteria = new Criteria();
+            criteria.TlId.Add((int)tlId);
 
-            if (tlId != null)
-                criteria.TlId.Add((int)tlId);
+            return Tracklist.Remove(criteria);
+        }
 
+        /// <summary>
+        /// Remove the matching tracks from the tracklist.
+        /// </summary>
+        /// <param name="tlId">one or more rules to match by</param>
+        /// <param name="uri">one or more rules to match by</param>
+        /// <returns></returns>
+        public static Task<(bool Succeeded, TlTrack[] Result)> Remove(
+            string uri
+        )
+        {
+            var criteria = new Criteria();
             if (uri != null)
                 criteria.Uri.Add(uri);
 
