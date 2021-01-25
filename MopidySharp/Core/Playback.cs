@@ -63,6 +63,8 @@ namespace Mopidy.Core
         /// <returns></returns>
         /// <remarks>
         /// Note that the track must already be in the tracklist.
+        ///
+        /// Need to wait a little bit until get the correct return value of GetState.
         /// </remarks>
         public static async Task<bool> Play(
             int? tlId = null
@@ -138,6 +140,9 @@ namespace Mopidy.Core
         /// Stop playing.
         /// </summary>
         /// <returns></returns>
+        /// <remarks>
+        /// Need to wait a little bit until get the correct return value of GetState.
+        /// </remarks>
         public static async Task<bool> Stop()
         {
             var notice = JsonRpcFactory.CreateNotice(Playback.MethodStop);
@@ -157,6 +162,9 @@ namespace Mopidy.Core
         /// Pause playback.
         /// </summary>
         /// <returns></returns>
+        /// <remarks>
+        /// Need to wait a little bit until get the correct return value of GetState.
+        /// </remarks>
         public static async Task<bool> Pause()
         {
             var notice = JsonRpcFactory.CreateNotice(Playback.MethodPause);
@@ -176,6 +184,9 @@ namespace Mopidy.Core
         /// If paused, resume playing the current track.
         /// </summary>
         /// <returns></returns>
+        /// <remarks>
+        /// Need to wait a little bit until get the correct return value of GetState.
+        /// </remarks>
         public static async Task<bool> Resume()
         {
             var notice = JsonRpcFactory.CreateNotice(Playback.MethodResume);
@@ -196,6 +207,9 @@ namespace Mopidy.Core
         /// </summary>
         /// <param name="timePosition">time position in milliseconds</param>
         /// <returns></returns>
+        /// <remarks>
+        /// Need to wait a little while until get the correct return value for GetTimePosition.
+        /// </remarks>
         public static async Task<(bool Succeeded, bool Result)> Seek(int timePosition)
         {
             var request = JsonRpcFactory.CreateRequest(
@@ -229,6 +243,10 @@ namespace Mopidy.Core
         /// Get the currently playing or selected track.
         /// </summary>
         /// <returns></returns>
+        /// <remarks>
+        /// After the Play, Pause, Stop and Resume methods,
+        /// need to wait a bit for the value to change.
+        /// </remarks>
         public static async Task<(bool Succeeded, TlTrack Result)> GetCurrentTlTrack()
         {
             var request = JsonRpcFactory.CreateRequest(Playback.MethodGetCurrentTlTrack);
@@ -256,6 +274,9 @@ namespace Mopidy.Core
         /// <returns></returns>
         /// <remarks>
         /// Extracted from get_current_tl_track() for convenience.
+        ///
+        /// After the Play, Pause, Stop and Resume methods,
+        /// need to wait a bit for the value to change.
         /// </remarks>
         public static async Task<(bool Succeeded, Track Result)> GetCurrentTrack()
         {
@@ -279,7 +300,7 @@ namespace Mopidy.Core
         }
 
         /// <summary>
-        /// Get the current stream title or None.
+        /// Get the current stream title or None. ** always null? **
         /// </summary>
         /// <returns></returns>
         public static async Task<(bool Succeeded, string Result)> GetStreamTitle()
@@ -307,6 +328,10 @@ namespace Mopidy.Core
         /// Get time position in milliseconds.
         /// </summary>
         /// <returns></returns>
+        /// <remarks>
+        /// After the Seek methods,
+        /// need to wait a bit for the value to change.
+        /// </remarks>
         public static async Task<(bool Succeeded, int Result)> GetTimePosition()
         {
             var request = JsonRpcFactory.CreateRequest(Playback.MethodGetTimePosition);
@@ -334,7 +359,11 @@ namespace Mopidy.Core
         /// Get The playback state.
         /// </summary>
         /// <returns></returns>
-        public static async Task<(bool Succeeded, PlaybackState State)> GetState()
+        /// <remarks>
+        /// After the Play, Pause, Stop and Resume methods,
+        /// need to wait a bit for the state to change.
+        /// </remarks>
+        public static async Task<(bool Succeeded, PlaybackState Result)> GetState()
         {
             var request = JsonRpcFactory.CreateRequest(Playback.MethodGetState);
 
