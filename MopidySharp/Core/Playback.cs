@@ -334,7 +334,7 @@ namespace Mopidy.Core
         /// Get The playback state.
         /// </summary>
         /// <returns></returns>
-        public static async Task<(bool Succeeded, PlaybackState state)> GetState()
+        public static async Task<(bool Succeeded, PlaybackState State)> GetState()
         {
             var request = JsonRpcFactory.CreateRequest(Playback.MethodGetState);
 

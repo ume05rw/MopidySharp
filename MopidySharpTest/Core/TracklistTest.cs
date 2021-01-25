@@ -1,12 +1,10 @@
-﻿using MopidySharpTest.Bases;
-using System;
+﻿using Mopidy.Core;
+using Mopidy.Models;
+using MopidySharpTest.Bases;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
-using Mopidy.Core;
-using System.Linq;
-using Mopidy.Models;
 
 namespace MopidySharpTest.Core
 {
