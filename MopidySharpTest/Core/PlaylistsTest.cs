@@ -79,38 +79,51 @@ namespace MopidySharpTest.Core
         [Fact]
         public async Task CreateSaveDeleteTest()
         {
-            var res1 = await Playlists.Create("tmp_playlist");
+            var schemes = new List<string>();
+            schemes.Add(null);
+
+            var res1 = await Playlists.GetUriSchemes();
             Assert.True(res1.Succeeded);
+            Assert.True(0 < res1.Result.Length);
+            schemes.AddRange(res1.Result);
 
-            var list = res1.Result;
-
-            var res2 = await Library.Search(
-                queryArtist: "Air Supply",
-                queryAlbum: "Strangers In Love"
-            );
-            Assert.True(res2.Succeeded);
-            Assert.True(1 <= res2.Result.Length);
-            list.Tracks.AddRange(res2.Result.First().Tracks);
-
-            var res3 = await Playlists.Save(list);
-            Assert.True(res3.Succeeded);
-
-            var res4 = await Playlists.Lookup(list.Uri);
-            Assert.True(res4.Succeeded);
-            Assert.Equal(list.Tracks.Count, res4.Result.Tracks.Count);
-
-            for (var i = 0; i < list.Tracks.Count; i++)
+            foreach (var scheme in schemes)
             {
-                Assert.Equal(list.Tracks[i].Uri, res4.Result.Tracks[i].Uri);
+                var res2 = await Playlists.Create(
+                    "tmp_playlist",
+                    scheme
+                );
+                Assert.True(res2.Succeeded);
+                var list = res2.Result;
+
+                var res3 = await Library.Search(
+                    queryArtist: "Air Supply",
+                    queryAlbum: "Strangers In Love"
+                );
+                Assert.True(res3.Succeeded);
+                Assert.True(1 <= res3.Result.Length);
+                list.Tracks.AddRange(res3.Result.First().Tracks);
+
+                var res4 = await Playlists.Save(list);
+                Assert.True(res4.Succeeded);
+
+                var res5 = await Playlists.Lookup(list.Uri);
+                Assert.True(res5.Succeeded);
+                Assert.Equal(list.Tracks.Count, res5.Result.Tracks.Count);
+
+                for (var i = 0; i < list.Tracks.Count; i++)
+                {
+                    Assert.Equal(list.Tracks[i].Uri, res5.Result.Tracks[i].Uri);
+                }
+
+                var res6 = await Playlists.Delete(list.Uri);
+                Assert.True(res6.Succeeded);
+                Assert.True(res6.Result);
+
+                var res7 = await Playlists.Lookup(list.Uri);
+                Assert.True(res7.Succeeded);
+                Assert.Null(res7.Result);
             }
-
-            var res5 = await Playlists.Delete(list.Uri);
-            Assert.True(res5.Succeeded);
-            Assert.True(res5.Result);
-
-            var res6 = await Playlists.Lookup(list.Uri);
-            Assert.True(res6.Succeeded);
-            Assert.Null(res6.Result);
         }
     }
 }
