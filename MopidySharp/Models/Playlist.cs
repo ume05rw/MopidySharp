@@ -34,7 +34,7 @@ namespace Mopidy.Models
         /// The playlist’s tracks. Read-only.
         /// </summary>
         [JsonProperty("tracks")]
-        public List<Track> Tracks { get; set; }
+        public List<Track> Tracks { get; set; } = new List<Track>();
 
         /// <summary>
         /// The playlist URI. Read-only.

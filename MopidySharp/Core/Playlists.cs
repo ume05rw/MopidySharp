@@ -1,6 +1,7 @@
 ﻿using Mopidy.Models;
 using Mopidy.Models.JsonRpcs;
 using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Mopidy.Core
@@ -259,11 +260,34 @@ namespace Mopidy.Core
             Playlist playlist
         )
         {
+            if (playlist == null)
+                return (false, null);
+
+            var args = new
+            {
+                __model__ = "Playlist",
+                tracks = new List<object>(),
+                uri = playlist.Uri,
+                name = playlist.Name
+            };
+
+            if (playlist.Tracks != null && 0 <= playlist.Tracks.Count)
+            {
+                foreach (var track in playlist.Tracks)
+                {
+                    args.tracks.Add(new
+                    {
+                        __model__ = "Track",
+                        uri = track.Uri
+                    });
+                }
+            }
+
             var request = JsonRpcFactory.CreateRequest(
                 Playlists.MethodSave,
                 new
                 {
-                    playlist
+                    playlist = args
                 }
             );
 
