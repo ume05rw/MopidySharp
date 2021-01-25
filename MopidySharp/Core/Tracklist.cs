@@ -616,7 +616,9 @@ namespace Mopidy.Core
 
             // 戻り値の型は、[ JObject | JArray | JValue | null ] のどれか。
             // 型が違うとパースエラーになる。
-            var result = JValue.FromObject(response.Result).ToObject<int?>();
+            var result = (response.Result == null)
+                ? null
+                : JValue.FromObject(response.Result).ToObject<int?>();
 
             return (true, result);
         }
@@ -646,7 +648,9 @@ namespace Mopidy.Core
 
             // 戻り値の型は、[ JObject | JArray | JValue | null ] のどれか。
             // 型が違うとパースエラーになる。
-            var result = JValue.FromObject(response.Result).ToObject<int?>();
+            var result = (response.Result == null)
+                ? null
+                : JValue.FromObject(response.Result).ToObject<int?>();
 
             return (true, result);
         }
@@ -674,7 +678,9 @@ namespace Mopidy.Core
 
             // 戻り値の型は、[ JObject | JArray | JValue | null ] のどれか。
             // 型が違うとパースエラーになる。
-            var result = JValue.FromObject(response.Result).ToObject<int?>();
+            var result = (response.Result == null)
+                ? null
+                : JValue.FromObject(response.Result).ToObject<int?>();
 
             return (true, result);
         }
@@ -719,9 +725,15 @@ namespace Mopidy.Core
         /// true : Tracks are removed from the tracklist when they have been played.
         /// false: Tracks are not removed from the tracklist.
         /// </remarks>
-        public static async Task<bool> GetConsume(bool value)
+        public static async Task<bool> SetConsume(bool value)
         {
-            var request = JsonRpcFactory.CreateRequest(Tracklist.MethodSetConsume, value);
+            var request = JsonRpcFactory.CreateRequest(
+                Tracklist.MethodSetConsume,
+                new
+                {
+                    value
+                }
+            );
 
             var response = await Tracklist._query.Exec(request);
 
@@ -772,7 +784,13 @@ namespace Mopidy.Core
         /// </remarks>
         public static async Task<bool> SetRandom(bool value)
         {
-            var request = JsonRpcFactory.CreateRequest(Tracklist.MethodSetRandom, value);
+            var request = JsonRpcFactory.CreateRequest(
+                Tracklist.MethodSetRandom,
+                new
+                {
+                    value
+                }
+            );
 
             var response = await Tracklist._query.Exec(request);
 
@@ -823,7 +841,13 @@ namespace Mopidy.Core
         /// </remarks>
         public static async Task<bool> SetRepeat(bool value)
         {
-            var request = JsonRpcFactory.CreateRequest(Tracklist.MethodSetRepeat, value);
+            var request = JsonRpcFactory.CreateRequest(
+                Tracklist.MethodSetRepeat,
+                new
+                {
+                    value
+                }
+            );
 
             var response = await Tracklist._query.Exec(request);
 
@@ -874,7 +898,13 @@ namespace Mopidy.Core
         /// </remarks>
         public static async Task<bool> SetSingle(bool value)
         {
-            var request = JsonRpcFactory.CreateRequest(Tracklist.MethodSetSingle, value);
+            var request = JsonRpcFactory.CreateRequest(
+                Tracklist.MethodSetSingle,
+                new
+                {
+                    value
+                }
+            );
 
             var response = await Tracklist._query.Exec(request);
 

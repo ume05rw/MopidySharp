@@ -475,5 +475,312 @@ namespace MopidySharpTest.Core
             Assert.True(res5.Succeeded);
             Assert.Equal(uris.Length, res5.Result);
         }
+
+        [Fact]
+        public async Task GetTracksTest()
+        {
+            var res1 = await Tracklist.Clear();
+            Assert.True(res1);
+
+            var res2 = await Tracklist.GetTracks();
+            Assert.True(res2.Succeeded);
+            Assert.Empty(res2.Result);
+
+            var res3 = await Library.Search(
+                queryArtist: "Air Supply",
+                queryAlbum: "Strangers In Love"
+            );
+            Assert.True(res3.Succeeded);
+            Assert.True(1 <= res3.Result.Length);
+            Assert.True(1 <= res3.Result.First().Tracks.Length);
+            var uris = res3.Result.First().Tracks
+                .OrderBy(e => e.TrackNo)
+                .Select(e => e.Uri)
+                .ToArray();
+
+            var res4 = await Tracklist.Add(uris);
+            Assert.True(res4.Succeeded);
+            Assert.Equal(uris.Length, res4.Result.Length);
+
+            var res5 = await Tracklist.GetTracks();
+            Assert.True(res5.Succeeded);
+            Assert.Equal(uris.Length, res5.Result.Length);
+
+            for (var i = 0; i < uris.Length; i++)
+            {
+                Assert.Equal(uris[i], res5.Result[i].Uri);
+            }
+        }
+
+        [Fact]
+        public async Task SliceTest()
+        {
+            var res1 = await Tracklist.Clear();
+            Assert.True(res1);
+
+            var res2 = await Library.Search(
+                queryArtist: "Air Supply",
+                queryAlbum: "Strangers In Love"
+            );
+            Assert.True(res2.Succeeded);
+            Assert.True(1 <= res2.Result.Length);
+            Assert.True(1 <= res2.Result.First().Tracks.Length);
+            var uris = res2.Result.First().Tracks
+                .OrderBy(e => e.TrackNo)
+                .Select(e => e.Uri)
+                .ToArray();
+
+            var res3 = await Tracklist.Add(uris);
+            Assert.True(res3.Succeeded);
+            Assert.Equal(uris.Length, res3.Result.Length);
+
+            var sliced = new string[]
+            {
+                uris[5],
+                uris[6],
+                uris[7],
+                uris[8],
+            };
+
+            var res4 = await Tracklist.Slice(5, 9);
+            Assert.True(res4.Succeeded);
+            Assert.Equal(4, res4.Result.Length);
+
+            for (var i = 0; i < sliced.Length; i++)
+            {
+                Assert.Equal(sliced[i], res4.Result[i].Track.Uri);
+            }
+
+            var res5 = await Tracklist.GetTlTracks();
+            Assert.True(res5.Succeeded);
+            Assert.Equal(uris.Length, res5.Result.Length);
+
+            for (var i = 0; i < uris.Length; i++)
+            {
+                Assert.Equal(uris[i], res5.Result[i].Track.Uri);
+            }
+        }
+
+        [Fact]
+        public async Task FilterTest()
+        {
+            var res1 = await Tracklist.Clear();
+            Assert.True(res1);
+
+            var res2 = await Library.Search(
+                queryArtist: "Air Supply",
+                queryAlbum: "Strangers In Love"
+            );
+            Assert.True(res2.Succeeded);
+            Assert.True(1 <= res2.Result.Length);
+            Assert.True(1 <= res2.Result.First().Tracks.Length);
+            var uris = res2.Result.First().Tracks
+                .OrderBy(e => e.TrackNo)
+                .Select(e => e.Uri)
+                .ToArray();
+
+            var res3 = await Tracklist.Add(uris);
+            Assert.True(res3.Succeeded);
+            Assert.Equal(uris.Length, res3.Result.Length);
+
+            var filtered1 = new string[]
+            {
+                uris[1],
+                uris[3],
+                uris[5],
+                uris[7],
+            };
+
+            var criteria = new Tracklist.Criteria();
+            criteria.TlId.Add(res3.Result[1].TlId);
+            criteria.TlId.Add(res3.Result[3].TlId);
+            criteria.TlId.Add(res3.Result[5].TlId);
+            criteria.TlId.Add(res3.Result[7].TlId);
+            //criteria.Uri.Add("local:track:");
+
+            var res4 = await Tracklist.Filter(criteria);
+            Assert.True(res4.Succeeded);
+            Assert.Equal(filtered1.Length, res4.Result.Length);
+            for (var i = 0; i < filtered1.Length; i++)
+            {
+                Assert.Equal(filtered1[i], res4.Result[i].Track.Uri);
+            }
+
+            criteria.Clear();
+            criteria.Uri.Add(res3.Result[1].Track.Uri);
+            criteria.Uri.Add(res3.Result[3].Track.Uri);
+            criteria.Uri.Add(res3.Result[5].Track.Uri);
+            criteria.Uri.Add(res3.Result[7].Track.Uri);
+
+            var res5 = await Tracklist.Filter(criteria);
+            Assert.True(res5.Succeeded);
+            Assert.Equal(filtered1.Length, res5.Result.Length);
+            for (var i = 0; i < filtered1.Length; i++)
+            {
+                Assert.Equal(filtered1[i], res5.Result[i].Track.Uri);
+            }
+
+            var res6 = await Tracklist.Filter(tlId: new int[]
+            {
+                res3.Result[1].TlId,
+                res3.Result[3].TlId,
+                res3.Result[5].TlId,
+                res3.Result[7].TlId,
+            });
+            Assert.True(res6.Succeeded);
+            Assert.Equal(filtered1.Length, res6.Result.Length);
+            for (var i = 0; i < filtered1.Length; i++)
+            {
+                Assert.Equal(filtered1[i], res6.Result[i].Track.Uri);
+            }
+
+            var res7 = await Tracklist.Filter(uri: new string[]
+            {
+                res3.Result[1].Track.Uri,
+                res3.Result[3].Track.Uri,
+                res3.Result[5].Track.Uri,
+                res3.Result[7].Track.Uri,
+            });
+            Assert.True(res7.Succeeded);
+            Assert.Equal(filtered1.Length, res7.Result.Length);
+            for (var i = 0; i < filtered1.Length; i++)
+            {
+                Assert.Equal(filtered1[i], res7.Result[i].Track.Uri);
+            }
+
+            var res8 = await Tracklist.Filter(tlId: res3.Result[1].TlId);
+            Assert.True(res8.Succeeded);
+            Assert.Single(res8.Result);
+            Assert.Equal(res3.Result[1].Track.Uri, res8.Result[0].Track.Uri);
+
+            var res9 = await Tracklist.Filter(uri: res3.Result[3].Track.Uri);
+            Assert.True(res9.Succeeded);
+            Assert.Single(res9.Result);
+            Assert.Equal(res3.Result[3].TlId, res9.Result[0].TlId);
+
+
+            var res10 = await Tracklist.GetTlTracks();
+            Assert.True(res10.Succeeded);
+            Assert.Equal(uris.Length, res10.Result.Length);
+
+            for (var i = 0; i < uris.Length; i++)
+            {
+                Assert.Equal(uris[i], res10.Result[i].Track.Uri);
+            }
+        }
+
+        [Fact]
+        public async Task GetEotTlIdTest()
+        {
+            var res = await Tracklist.GetEotTlId();
+            Assert.True(res.Succeeded);
+
+            if (res.Result != null)
+                Assert.True(0 <= res.Result);
+        }
+
+        [Fact]
+        public async Task GetNextTlIdTest()
+        {
+            var res = await Tracklist.GetNextTlId();
+            Assert.True(res.Succeeded);
+
+            if (res.Result != null)
+                Assert.True(0 <= res.Result);
+        }
+
+        [Fact]
+        public async Task GetPreviousTlIdTest()
+        {
+            var res = await Tracklist.GetPreviousTlId();
+            Assert.True(res.Succeeded);
+
+            if (res.Result != null)
+                Assert.True(0 <= res.Result);
+        }
+
+        [Fact]
+        public async Task GetConsumeTest()
+        {
+            var res = await Tracklist.GetConsume();
+            Assert.True(res.Succeeded);
+        }
+
+        [Fact]
+        public async Task SetConsumeTest()
+        {
+            var res1 = await Tracklist.GetConsume();
+            Assert.True(res1.Succeeded);
+
+            var res2 = await Tracklist.SetConsume(!res1.Result);
+            Assert.True(res2);
+
+            var res3 = await Tracklist.GetConsume();
+            Assert.True(res3.Succeeded);
+            Assert.True(res1.Result != res3.Result);
+        }
+
+        [Fact]
+        public async Task GetRandomTest()
+        {
+            var res = await Tracklist.GetRandom();
+            Assert.True(res.Succeeded);
+        }
+
+        [Fact]
+        public async Task SetRandomTest()
+        {
+            var res1 = await Tracklist.GetRandom();
+            Assert.True(res1.Succeeded);
+
+            var res2 = await Tracklist.SetRandom(!res1.Result);
+            Assert.True(res2);
+
+            var res3 = await Tracklist.GetRandom();
+            Assert.True(res3.Succeeded);
+            Assert.True(res1.Result != res3.Result);
+        }
+
+        [Fact]
+        public async Task GetRepeatTest()
+        {
+            var res = await Tracklist.GetRepeat();
+            Assert.True(res.Succeeded);
+        }
+
+        [Fact]
+        public async Task SetRepeatTest()
+        {
+            var res1 = await Tracklist.GetRepeat();
+            Assert.True(res1.Succeeded);
+
+            var res2 = await Tracklist.SetRepeat(!res1.Result);
+            Assert.True(res2);
+
+            var res3 = await Tracklist.GetRepeat();
+            Assert.True(res3.Succeeded);
+            Assert.True(res1.Result != res3.Result);
+        }
+
+        [Fact]
+        public async Task GetSingleTest()
+        {
+            var res = await Tracklist.GetSingle();
+            Assert.True(res.Succeeded);
+        }
+
+        [Fact]
+        public async Task SetSingleTest()
+        {
+            var res1 = await Tracklist.GetSingle();
+            Assert.True(res1.Succeeded);
+
+            var res2 = await Tracklist.SetSingle(!res1.Result);
+            Assert.True(res2);
+
+            var res3 = await Tracklist.GetSingle();
+            Assert.True(res3.Succeeded);
+            Assert.True(res1.Result != res3.Result);
+        }
     }
 }
