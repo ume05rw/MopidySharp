@@ -1,5 +1,6 @@
 ﻿using Mopidy.Models;
 using Mopidy.Models.JsonRpcs;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -26,6 +27,30 @@ namespace Mopidy.Core
         private const string MethodCreate = "core.playlists.create";
         private const string MethodSave = "core.playlists.save";
         private const string MethodDelete = "core.playlists.delete";
+
+        private class PlaylistArg
+        {
+            [JsonProperty("__model__", NullValueHandling = NullValueHandling.Ignore)]
+            public string ModelType { get; } = "Playlist";
+
+            [JsonProperty("tracks", NullValueHandling = NullValueHandling.Ignore)]
+            public List<TrackArg> Tracks { get; } = new List<TrackArg>();
+
+            [JsonProperty("uri", NullValueHandling = NullValueHandling.Ignore)]
+            public string Uri { get; set; }
+
+            [JsonProperty("name", NullValueHandling = NullValueHandling.Ignore)]
+            public string Name { get; set; }
+        }
+
+        private class TrackArg
+        {
+            [JsonProperty("__model__", NullValueHandling = NullValueHandling.Ignore)]
+            public string ModelType { get; } = "Track";
+
+            [JsonProperty("uri", NullValueHandling = NullValueHandling.Ignore)]
+            public string Uri { get; set; }
+        }
 
         private static readonly Query _query = Query.Get();
 
@@ -263,22 +288,19 @@ namespace Mopidy.Core
             if (playlist == null)
                 return (false, null);
 
-            var args = new
+            var args = new PlaylistArg()
             {
-                __model__ = "Playlist",
-                tracks = new List<object>(),
-                uri = playlist.Uri,
-                name = playlist.Name
+                Uri = playlist.Uri,
+                Name = playlist.Name
             };
 
             if (playlist.Tracks != null && 0 <= playlist.Tracks.Count)
             {
                 foreach (var track in playlist.Tracks)
                 {
-                    args.tracks.Add(new
+                    args.Tracks.Add(new TrackArg()
                     {
-                        __model__ = "Track",
-                        uri = track.Uri
+                        Uri = track.Uri
                     });
                 }
             }
