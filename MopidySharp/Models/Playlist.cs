@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace Mopidy.Models
 {
@@ -33,7 +34,7 @@ namespace Mopidy.Models
         /// The playlist’s tracks. Read-only.
         /// </summary>
         [JsonProperty("tracks")]
-        public Track[] Tracks { get; set; }
+        public List<Track> Tracks { get; set; }
 
         /// <summary>
         /// The playlist URI. Read-only.
