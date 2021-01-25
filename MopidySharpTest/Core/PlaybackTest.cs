@@ -8,6 +8,8 @@ namespace MopidySharpTest.Core
 {
     public class PlaybackTest : TestBase
     {
+        private const int WaitMsec = 1000;
+
         [Fact]
         public async Task PlayNextPreviousStopPauseResumeTest()
         {
@@ -41,7 +43,7 @@ namespace MopidySharpTest.Core
             var res6 = await Playback.Play(res3.Result[3].TlId);
             Assert.True(res6);
 
-            await Task.Delay(500);
+            await Task.Delay(PlaybackTest.WaitMsec);
 
             var res7 = await Playback.GetState();
             Assert.True(res7.Succeeded);
@@ -50,12 +52,12 @@ namespace MopidySharpTest.Core
             var res8 = await Playback.Stop();
             Assert.True(res8);
 
-            await Task.Delay(500);
+            await Task.Delay(PlaybackTest.WaitMsec);
 
             var res9 = await Playback.Play();
             Assert.True(res9);
 
-            await Task.Delay(500);
+            await Task.Delay(PlaybackTest.WaitMsec);
 
             var res10 = await Playback.GetState();
             Assert.True(res10.Succeeded);
@@ -78,7 +80,7 @@ namespace MopidySharpTest.Core
             var res15 = await Playback.Pause();
             Assert.True(res15);
 
-            await Task.Delay(500);
+            await Task.Delay(PlaybackTest.WaitMsec);
 
             var res16 = await Playback.GetState();
             Assert.True(res16.Succeeded);
@@ -101,7 +103,7 @@ namespace MopidySharpTest.Core
             var res21 = await Playback.Resume();
             Assert.True(res21);
 
-            await Task.Delay(500);
+            await Task.Delay(PlaybackTest.WaitMsec);
 
             var res22 = await Playback.GetState();
             Assert.True(res22.Succeeded);
@@ -110,7 +112,7 @@ namespace MopidySharpTest.Core
             var res23 = await Playback.Stop();
             Assert.True(res21);
 
-            await Task.Delay(500);
+            await Task.Delay(PlaybackTest.WaitMsec);
 
             var res24 = await Playback.GetState();
             Assert.True(res24.Succeeded);
@@ -147,12 +149,12 @@ namespace MopidySharpTest.Core
                 Assert.True(res5);
             }
 
-            await Task.Delay(500);
+            await Task.Delay(PlaybackTest.WaitMsec);
 
             var res6 = await Playback.Play(res3.Result[4].TlId);
             Assert.True(res6);
 
-            await Task.Delay(500);
+            await Task.Delay(PlaybackTest.WaitMsec);
 
             var res7 = await Playback.GetState();
             Assert.True(res7.Succeeded);
@@ -166,7 +168,7 @@ namespace MopidySharpTest.Core
             Assert.True(res9.Succeeded);
             Assert.True(res9.Result);
 
-            await Task.Delay(500);
+            await Task.Delay(PlaybackTest.WaitMsec);
 
             var res10 = await Playback.GetTimePosition();
             Assert.True(res10.Succeeded);
@@ -203,12 +205,12 @@ namespace MopidySharpTest.Core
                 Assert.True(res5);
             }
 
-            await Task.Delay(500);
+            await Task.Delay(PlaybackTest.WaitMsec);
 
             var res6 = await Playback.Play(res3.Result[4].TlId);
             Assert.True(res6);
 
-            await Task.Delay(500);
+            await Task.Delay(PlaybackTest.WaitMsec);
 
             var res7 = await Playback.GetCurrentTlTrack();
             Assert.True(res7.Succeeded);
@@ -254,12 +256,12 @@ namespace MopidySharpTest.Core
                 Assert.True(res5);
             }
 
-            await Task.Delay(500);
+            await Task.Delay(PlaybackTest.WaitMsec);
 
             var res6 = await Playback.Play(res3.Result[4].TlId);
             Assert.True(res6);
 
-            await Task.Delay(500);
+            await Task.Delay(PlaybackTest.WaitMsec);
 
             var res7 = await Playback.SetState(Playback.PlaybackState.Paused);
             Assert.True(res7);
