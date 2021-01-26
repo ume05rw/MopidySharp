@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 namespace Mopidy.Models.JsonRpcs
 {
-     [JsonObject(MemberSerialization.OptIn)]
+    [JsonObject(MemberSerialization.OptIn)]
     internal abstract class JsonRpcResult : JsonRpcBase
     {
         [JsonProperty("id")]
