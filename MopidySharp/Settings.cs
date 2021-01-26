@@ -5,10 +5,31 @@
     /// </summary>
     public static class Settings
     {
+        public enum Protocol
+        {
+            Http,
+            Https
+        }
+
+        private static Protocol _serverProtocol = Protocol.Http;
         private static string _serverAddress = "localhost";
         private static int _port = 6680;
         private static string _rpcUrl = "http://localhost:6680/mopidy/rpc";
         //private static string _imageUrl = "http://localhost:6680/mopidy/images";
+
+        public static Protocol ServerProtocol
+        {
+            get
+            {
+                return Settings._serverProtocol;
+            }
+            set
+            {
+                Settings._serverProtocol = value;
+                Settings.SetUrls();
+            }
+        }
+
 
         /// <summary>
         /// The address where Mopidy is running. IP-Address or HostName.
@@ -54,7 +75,10 @@
 
         private static void SetUrls()
         {
-            var baseUrl = $"http://{Settings._serverAddress}:{Settings._port}/mopidy";
+            var protocolString = (Settings.ServerProtocol == Protocol.Http)
+                ? "http"
+                : "https";
+            var baseUrl = $"{protocolString}://{Settings._serverAddress}:{Settings._port}/mopidy";
             Settings._rpcUrl = $"{baseUrl}/rpc";
             //Settings._imageUrl = $"{baseUrl}/images";
         }
