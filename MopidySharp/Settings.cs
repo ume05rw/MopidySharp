@@ -14,7 +14,7 @@
         private const string ProtocolHttp = "http";
         private const string ProtocolHttps = "https";
         private const string DirRpc = "/mopidy/rpc";
-        private static Settings _instance = new Settings();
+        private static readonly Settings _instance = new Settings();
 
         /// <summary>
         /// The protocol where Mopidy is running. http or https.
