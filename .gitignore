@@ -259,3 +259,4 @@ src/ts/**/*.map
 dist/
 
 settings.json
+mopidy.xml
