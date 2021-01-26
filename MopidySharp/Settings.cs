@@ -3,7 +3,7 @@
     /// <summary>
     /// Settings
     /// </summary>
-    public static class Settings
+    public class Settings
     {
         public enum Protocol
         {
@@ -11,22 +11,24 @@
             Https
         }
 
-        private static Protocol _serverProtocol = Protocol.Http;
-        private static string _serverAddress = "localhost";
-        private static int _port = 6680;
-        private static string _rpcUrl = "http://localhost:6680/mopidy/rpc";
-        //private static string _imageUrl = "http://localhost:6680/mopidy/images";
+        private const string ProtocolHttp = "http";
+        private const string ProtocolHttps = "https";
+        private const string DirRpc = "/mopidy/rpc";
+        private static Settings _instance = new Settings();
 
+        /// <summary>
+        /// The protocol where Mopidy is running. http or https.
+        /// </summary>
         public static Protocol ServerProtocol
         {
             get
             {
-                return Settings._serverProtocol;
+                return Settings._instance._serverProtocol;
             }
             set
             {
-                Settings._serverProtocol = value;
-                Settings.SetUrls();
+                Settings._instance._serverProtocol = value;
+                Settings._instance.SetUrls();
             }
         }
 
@@ -38,12 +40,12 @@
         {
             get
             {
-                return Settings._serverAddress;
+                return Settings._instance._serverAddress;
             }
             set
             {
-                Settings._serverAddress = value;
-                Settings.SetUrls();
+                Settings._instance._serverAddress = value;
+                Settings._instance.SetUrls();
             }
         }
 
@@ -54,33 +56,49 @@
         {
             get
             {
-                return Settings._port;
+                return Settings._instance._port;
             }
             set
             {
-                Settings._port = value;
-                Settings.SetUrls();
+                Settings._instance._port = value;
+                Settings._instance.SetUrls();
             }
         }
 
         /// <summary>
-        /// JSON-Rpc Destination URL
+        /// Base URL
         /// </summary>
-        public static string RpcUrl => Settings._rpcUrl;
+        public static string BaseUrl => Settings._instance._baseUrl;
 
         /// <summary>
-        /// Image Base URL
+        /// JSON-Rpc Destination URL
         /// </summary>
-        //public static string ImageUrl => Settings._imageUrl;
+        public static string RpcUrl => Settings._instance._rpcUrl;
 
-        private static void SetUrls()
+
+
+
+        private Protocol _serverProtocol;
+        private string _serverAddress;
+        private int _port;
+        private string _baseUrl;
+        private string _rpcUrl;
+
+        private Settings()
         {
-            var protocolString = (Settings.ServerProtocol == Protocol.Http)
-                ? "http"
-                : "https";
-            var baseUrl = $"{protocolString}://{Settings._serverAddress}:{Settings._port}/mopidy";
-            Settings._rpcUrl = $"{baseUrl}/rpc";
-            //Settings._imageUrl = $"{baseUrl}/images";
+            this._serverProtocol = Protocol.Http;
+            this._serverAddress = "localhost";
+            this._port = 6680;
+            this.SetUrls();
+        }
+
+        private void SetUrls()
+        {
+            var protocolString = (this._serverProtocol == Protocol.Http)
+                ? Settings.ProtocolHttp
+                : Settings.ProtocolHttps;
+            this._baseUrl = $"{protocolString}://{this._serverAddress}:{this._port}";
+            this._rpcUrl = $"{this._baseUrl}{Settings.DirRpc}";
         }
     }
 }

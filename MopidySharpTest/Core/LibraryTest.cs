@@ -322,6 +322,15 @@ namespace MopidySharpTest.Core
             var res2 = await Library.GetImages(albumUri);
             Assert.True(res2.Succeeded);
             Assert.True(0 <= res2.Result.Length);
+
+            if (1 <= res2.Result.Length)
+            {
+                var image = res2.Result.First();
+                using (var nativeImage = await image.GetNativeImage())
+                {
+                    Assert.NotNull(nativeImage);
+                }
+            }
         }
 
         //[Fact]

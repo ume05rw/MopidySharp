@@ -1,4 +1,9 @@
 using Newtonsoft.Json;
+using System;
+using System.Drawing;
+using System.IO;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Mopidy.Models
 {
@@ -28,5 +33,15 @@ namespace Mopidy.Models
         /// </summary>
         [JsonProperty("width")]
         public int? Width { get; set; }
+
+        /// <summary>
+        /// Get C# System.Drawing.Image Object
+        /// </summary>
+        /// <param name="image"></param>
+        /// <returns></returns>
+        public Task<System.Drawing.Image> GetNativeImage()
+        {
+            return Images.GetNative(this);
+        }
     }
 }
