@@ -21,6 +21,10 @@ Implemented all methods on mopidy.core.</Description>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>C:\dev\Library\MopidySharp\MopidySharp\mopidy.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Remove="Models\JsonRpcs\JsonRpcParamsQuery.cs" />
   </ItemGroup>
