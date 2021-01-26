@@ -5,9 +5,19 @@
     /// </summary>
     public class Settings
     {
+        /// <summary>
+        /// Protocol
+        /// </summary>
         public enum Protocol
         {
+            /// <summary>
+            /// http
+            /// </summary>
             Http,
+
+            /// <summary>
+            /// https
+            /// </summary>
             Https
         }
 

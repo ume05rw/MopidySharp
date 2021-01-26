@@ -33,7 +33,6 @@ namespace Mopidy.Models
         /// <summary>
         /// Get C# System.Drawing.Image Object
         /// </summary>
-        /// <param name="image"></param>
         /// <returns></returns>
         public Task<System.Drawing.Image> GetNativeImage()
         {

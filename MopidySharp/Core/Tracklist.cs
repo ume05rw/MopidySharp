@@ -55,12 +55,21 @@ namespace Mopidy.Core
         /// </summary>
         public class Criteria
         {
+            /// <summary>
+            /// Tracklist ID number list
+            /// </summary>
             [JsonProperty("tlid", NullValueHandling = NullValueHandling.Ignore)]
             public List<int> TlId { get; set; } = new List<int>();
 
+            /// <summary>
+            /// URI string list
+            /// </summary>
             [JsonProperty("uri", NullValueHandling = NullValueHandling.Ignore)]
             public List<string> Uri { get; set; } = new List<string>();
 
+            /// <summary>
+            /// Clear and Initialize
+            /// </summary>
             public void Clear()
             {
                 if (this.TlId == null)
@@ -74,7 +83,7 @@ namespace Mopidy.Core
                     this.Uri.Clear();
             }
 
-            public Criteria Format()
+            internal Criteria Format()
             {
                 var result = new Criteria()
                 {
@@ -223,7 +232,6 @@ namespace Mopidy.Core
         /// Remove the matching tracks from the tracklist.
         /// </summary>
         /// <param name="tlId">one or more rules to match by</param>
-        /// <param name="uri">one or more rules to match by</param>
         /// <returns></returns>
         public static Task<(bool Succeeded, TlTrack[] Result)> Remove(
             int tlId
@@ -238,7 +246,6 @@ namespace Mopidy.Core
         /// <summary>
         /// Remove the matching tracks from the tracklist.
         /// </summary>
-        /// <param name="tlId">one or more rules to match by</param>
         /// <param name="uri">one or more rules to match by</param>
         /// <returns></returns>
         public static Task<(bool Succeeded, TlTrack[] Result)> Remove(

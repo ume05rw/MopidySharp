@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Mopidy
 {
+    /// <summary>
+    /// Image Util
+    /// </summary>
     public class Images
     {
         /// <summary>

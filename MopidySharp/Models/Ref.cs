@@ -12,18 +12,40 @@ namespace Mopidy.Models
     [JsonObject(MemberSerialization.OptIn)]
     public class Ref
     {
-        public const string TypeAlbum = "album";
-        public const string TypeArtist = "artist";
-        public const string TypeDirectory = "directory";
-        public const string TypePlaylist = "playlist";
-        public const string TypeTrack = "track";
+        internal const string TypeAlbum = "album";
+        internal const string TypeArtist = "artist";
+        internal const string TypeDirectory = "directory";
+        internal const string TypePlaylist = "playlist";
+        internal const string TypeTrack = "track";
 
+        /// <summary>
+        /// Type of Ref
+        /// </summary>
         public enum RefType
         {
+            /// <summary>
+            /// Artist
+            /// </summary>
             Artist,
+
+            /// <summary>
+            /// Album
+            /// </summary>
             Album,
+
+            /// <summary>
+            /// Track
+            /// </summary>
             Track,
+
+            /// <summary>
+            /// Playlist
+            /// </summary>
             Playlist,
+
+            /// <summary>
+            /// Directory
+            /// </summary>
             Directory
         }
 

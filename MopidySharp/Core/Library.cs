@@ -78,43 +78,82 @@ namespace Mopidy.Core
 
             #endregion "JsonConverter"
 
+            /// <summary>
+            /// Uri string list
+            /// </summary>
             [JsonProperty("uri", NullValueHandling = NullValueHandling.Ignore)]
             public List<string> Uri { get; set; } = new List<string>();
 
+            /// <summary>
+            /// Track Name string list
+            /// </summary>
             [JsonProperty("track_name", NullValueHandling = NullValueHandling.Ignore)]
             public List<string> TrackName { get; set; } = new List<string>();
 
+            /// <summary>
+            /// Album Name string list
+            /// </summary>
             [JsonProperty("album", NullValueHandling = NullValueHandling.Ignore)]
             public List<string> Album { get; set; } = new List<string>();
 
+            /// <summary>
+            /// Artist Name string list
+            /// </summary>
             [JsonProperty("artist", NullValueHandling = NullValueHandling.Ignore)]
             public List<string> Artist { get; set; } = new List<string>();
 
+            /// <summary>
+            /// Album-Artist Name string list
+            /// </summary>
             [JsonProperty("albumartist", NullValueHandling = NullValueHandling.Ignore)]
             public List<string> AlbumArtist { get; set; } = new List<string>();
 
+            /// <summary>
+            /// Comporser-Artist Name string list
+            /// </summary>
             [JsonProperty("composer", NullValueHandling = NullValueHandling.Ignore)]
             public List<string> Composer { get; set; } = new List<string>();
 
+            /// <summary>
+            /// Performer-Artist Name string list
+            /// </summary>
             [JsonProperty("performer", NullValueHandling = NullValueHandling.Ignore)]
             public List<string> Performer { get; set; } = new List<string>();
 
+            /// <summary>
+            /// Track Number list
+            /// </summary>
             [JsonProperty("track_no", NullValueHandling = NullValueHandling.Ignore)]
             [JsonConverter(typeof(TrackNoConverter))]
             public List<int> TrackNo { get; set; } = new List<int>();
 
+            /// <summary>
+            /// Genre Name string list
+            /// </summary>
             [JsonProperty("genre", NullValueHandling = NullValueHandling.Ignore)]
             public List<string> Genre { get; set; } = new List<string>();
 
+            /// <summary>
+            /// Date string list
+            /// </summary>
             [JsonProperty("date", NullValueHandling = NullValueHandling.Ignore)]
             public List<string> Date { get; set; } = new List<string>();
 
+            /// <summary>
+            /// Comment string list
+            /// </summary>
             [JsonProperty("comment", NullValueHandling = NullValueHandling.Ignore)]
             public List<string> Comment { get; set; } = new List<string>();
 
+            /// <summary>
+            /// Any string list
+            /// </summary>
             [JsonProperty("any", NullValueHandling = NullValueHandling.Ignore)]
             public List<string> Any { get; set; } = new List<string>();
 
+            /// <summary>
+            /// Clear and Initialize
+            /// </summary>
             public void Clear()
             {
                 if (this.Uri == null)
@@ -178,7 +217,7 @@ namespace Mopidy.Core
                     this.Any.Clear();
             }
 
-            public Query Format()
+            internal Query Format()
             {
                 var result = new Query()
                 {

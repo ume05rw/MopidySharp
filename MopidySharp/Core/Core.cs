@@ -4,6 +4,12 @@ using System.Threading.Tasks;
 
 namespace Mopidy.Core
 {
+    /// <summary>
+    /// Methods for Core
+    /// </summary>
+    /// <remarks>
+    /// https://docs.mopidy.com/en/latest/api/core/#mopidy.core.Core
+    /// </remarks>
     public static class Core
     {
         private const string MethodGetUriSchemes = "core.get_uri_schemes";
