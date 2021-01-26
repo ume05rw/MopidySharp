@@ -27,7 +27,7 @@ Supports .NET Standard2.0
         foreach (var tlTrack in res.Result)
             System.Diagnostics.Debug.WriteLine(tlTrack.Track.Name);
 
-More info: [Namespace.md](https://github.com/ume05rw/MopidySharp/blob/master/Namespace.md])
+More info: [Namespace.md](https://github.com/ume05rw/MopidySharp/blob/master/Namespace.md)
 
 
 ## Licence
