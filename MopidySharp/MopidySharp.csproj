@@ -4,6 +4,21 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>mopidy</AssemblyName>
     <RootNamespace>Mopidy</RootNamespace>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>MopidySharp</PackageId>
+    <Product>MopidySharp</Product>
+    <Authors>Do-Be's</Authors>
+    <Company>Do-Be's</Company>
+    <PackageProjectUrl>https://github.com/ume05rw/MopidySharp</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/ume05rw/MopidySharp.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>Mopidy JSON-Rpc</PackageTags>
+    <Copyright>Do-Be's</Copyright>
+    <Description>Mopidy Music Server control library.
+Connect by JSON-Rpc.
+Implemented all methods on mopidy.core.</Description>
+    <PackageReleaseNotes>First Release.</PackageReleaseNotes>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,6 +28,13 @@
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="System.Drawing.Common" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

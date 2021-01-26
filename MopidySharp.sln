@@ -5,7 +5,15 @@ VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MopidySharp", "MopidySharp\MopidySharp.csproj", "{A91C60D4-42DD-4DAE-AF7A-FE79637FE6B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MopidySharpTest", "MopidySharpTest\MopidySharpTest.csproj", "{398BC7B6-22AE-4C89-9497-40017FD11C8E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MopidySharpTest", "MopidySharpTest\MopidySharpTest.csproj", "{398BC7B6-22AE-4C89-9497-40017FD11C8E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{BEA57C67-A9B0-45B7-9B10-68B129D25513}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		LICENSE = LICENSE
+		Namespace.md = Namespace.md
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

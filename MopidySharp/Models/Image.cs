@@ -13,16 +13,16 @@ namespace Mopidy.Models
     public class Image
     {
         /// <summary>
-        /// Optional height of the image or None. Read-only.
-        /// </summary>
-        [JsonProperty("height")]
-        public int? Height { get; set; }
-
-        /// <summary>
         /// The image URI. Read-only.
         /// </summary>
         [JsonProperty("uri")]
         public string Uri { get; set; }
+
+        /// <summary>
+        /// Optional height of the image or None. Read-only.
+        /// </summary>
+        [JsonProperty("height")]
+        public int? Height { get; set; }
 
         /// <summary>
         /// Optional width of the image or None. Read-only.

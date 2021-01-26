@@ -107,40 +107,19 @@ namespace Mopidy.Models
         /// The object name. Read-only.
         /// </summary>
         [JsonProperty("name")]
-        public string Name;
+        public string Name { get; set; }
 
         /// <summary>
         /// The object type, e.g. “artist”, “album”, “track”, “playlist”, “directory”. Read-only.
         /// </summary>
         [JsonProperty("type")]
         [JsonConverter(typeof(RefTypeConverter))]
-        public RefType Type;
+        public RefType Type { get; set; }
 
         /// <summary>
         /// The object URI. Read-only.
         /// </summary>
         [JsonProperty("uri")]
-        public string Uri;
-
-        //public string GetAlbumUri()
-        //{
-        //    if (this.Type == Ref.TypeAlbum)
-        //        return this.Uri;
-
-        //    if (this.Type == Ref.TypeDirectory)
-        //    {
-        //        var uriParams = this.Uri.Split('?');
-        //        if (uriParams.Length <= 0)
-        //            return null;
-
-        //        var albumParams = uriParams[1].Split('&')
-        //            .Where(e => e.StartsWith("album=")).FirstOrDefault();
-
-        //        // return null if album not found.
-        //        return albumParams?.Split('=')[1];
-        //    }
-
-        //    return null;
-        //}
+        public string Uri { get; set; }
     }
 }
