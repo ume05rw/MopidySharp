@@ -263,7 +263,6 @@ namespace MopidySharpTest.Core
 
             var seeked = false;
             var seekedCount = 0;
-            var streamTitleChanged = false;
             var tracklistChanged = false;
             var trackPlaybackStarted = false;
             var trackPlaybackPaused = false;
@@ -279,7 +278,6 @@ namespace MopidySharpTest.Core
             };
             CoreListener.StreamTitleChanged += (sender, ev) =>
             {
-                streamTitleChanged = true;
                 Assert.NotNull(ev);
                 Assert.NotNull(ev.Title);
             };

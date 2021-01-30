@@ -1,4 +1,4 @@
-Namespace
+## Namespace Tree
 
     Mopidy
       |
@@ -6,67 +6,65 @@ Namespace
       |      |
       |      +-- Core
       |      |     |
-      |      |     +-- Task<(bool Succeeded, string[] Result)> GetUriSchemes()
-      |      |     +-- Task<(bool Succeeded, string Result)> GetVersion()
+      |      |     +-- static Task<(bool Succeeded, string[] Result)> GetUriSchemes()
+      |      |     +-- static Task<(bool Succeeded, string Result)> GetVersion()
       |      |
       |      +-- Tracklist
       |      |     |
       |      |     +-- Criteria
       |      |     |
-      |      |     +-- Task<(bool Succeeded, TlTrack[] Result)> Add(string[] uris, int? atPosition = null)
-      |      |     +-- Task<(bool Succeeded, TlTrack[] Result)> Add(string uri, int? atPosition = null)
-      |      |     +-- Task<(bool Succeeded, TlTrack[] Result)> Remove(int[] tlId)
-      |      |     +-- Task<(bool Succeeded, TlTrack[] Result)> Remove(string[] uri)
-      |      |     +-- Task<(bool Succeeded, TlTrack[] Result)> Remove(int tlId)
-      |      |     +-- Task<(bool Succeeded, TlTrack[] Result)> Remove(string uri)
-      |      |     +-- Task<bool> Clear()
-      |      |     +-- Task<bool> Move(int start, int end, int toPosition)
-      |      |     +-- Task<bool> Shuffle(int? start = null, int? end = null)
-      |      |     +-- Task<(bool Succeeded, TlTrack[] Result)> GetTlTracks()
-      |      |     +-- Task<(bool Succeeded, int? Result)> Index(int tlId)
-      |      |     +-- Task<(bool Succeeded, int Result)> GetVersion()
-      |      |     +-- Task<(bool Succeeded, int Result)> GetLength()
-      |      |     +-- Task<(bool Succeeded, Track[] Result)> GetTracks()
-      |      |     +-- Task<(bool Succeeded, TlTrack[] Result)> Slice(int start, int end)
-      |      |     +-- Task<(bool Succeeded, TlTrack[] Result)> Filter(Criteria criteria)
-      |      |     +-- Task<(bool Succeeded, TlTrack[] Result)> Filter(int? tlId = null, string uri = null)
-      |      |     +-- Task<(bool Succeeded, int? Result)> GetEotTlId()
-      |      |     +-- Task<(bool Succeeded, int? Result)> GetNextTlId()
-      |      |     +-- Task<(bool Succeeded, int? Result)> GetPreviousTlId()
-      |      |     +-- Task<(bool Succeeded, bool Result)> GetConsume()
-      |      |     +-- Task<bool> SetConsume(bool value)
-      |      |     +-- Task<(bool Succeeded, bool Result)> GetRandom()
-      |      |     +-- Task<bool> SetRandom(bool value)
-      |      |     +-- Task<(bool Succeeded, bool Result)> GetRepeat()
-      |      |     +-- Task<bool> SetRepeat(bool value)
-      |      |     +-- Task<(bool Succeeded, bool Result)> GetSingle()
-      |      |     +-- Task<bool> SetSingle(bool value)
+      |      |     +-- static Task<(bool Succeeded, TlTrack[] Result)> Add(string[] uris, int? atPosition = null)
+      |      |     +-- static Task<(bool Succeeded, TlTrack[] Result)> Add(string uri, int? atPosition = null)
+      |      |     +-- static Task<(bool Succeeded, TlTrack[] Result)> Remove(int[] tlId)
+      |      |     +-- static Task<(bool Succeeded, TlTrack[] Result)> Remove(string[] uri)
+      |      |     +-- static Task<(bool Succeeded, TlTrack[] Result)> Remove(int tlId)
+      |      |     +-- static Task<(bool Succeeded, TlTrack[] Result)> Remove(string uri)
+      |      |     +-- static Task<bool> Clear()
+      |      |     +-- static Task<bool> Move(int start, int end, int toPosition)
+      |      |     +-- static Task<bool> Shuffle(int? start = null, int? end = null)
+      |      |     +-- static Task<(bool Succeeded, TlTrack[] Result)> GetTlTracks()
+      |      |     +-- static Task<(bool Succeeded, int? Result)> Index(int tlId)
+      |      |     +-- static Task<(bool Succeeded, int Result)> GetVersion()
+      |      |     +-- static Task<(bool Succeeded, int Result)> GetLength()
+      |      |     +-- static Task<(bool Succeeded, Track[] Result)> GetTracks()
+      |      |     +-- static Task<(bool Succeeded, TlTrack[] Result)> Slice(int start, int end)
+      |      |     +-- static Task<(bool Succeeded, TlTrack[] Result)> Filter(Criteria criteria)
+      |      |     +-- static Task<(bool Succeeded, TlTrack[] Result)> Filter(int? tlId = null, string uri = null)
+      |      |     +-- static Task<(bool Succeeded, int? Result)> GetEotTlId()
+      |      |     +-- static Task<(bool Succeeded, int? Result)> GetNextTlId()
+      |      |     +-- static Task<(bool Succeeded, int? Result)> GetPreviousTlId()
+      |      |     +-- static Task<(bool Succeeded, bool Result)> GetConsume()
+      |      |     +-- static Task<bool> SetConsume(bool value)
+      |      |     +-- static Task<(bool Succeeded, bool Result)> GetRandom()
+      |      |     +-- static Task<bool> SetRandom(bool value)
+      |      |     +-- static Task<(bool Succeeded, bool Result)> GetRepeat()
+      |      |     +-- static Task<bool> SetRepeat(bool value)
+      |      |     +-- static Task<(bool Succeeded, bool Result)> GetSingle()
+      |      |     +-- static Task<bool> SetSingle(bool value)
       |      |
       |      +-- Playback
       |      |     |
-      |      |     +-- PlaybackState
-      |      |     |
-      |      |     +-- Task<bool> Play(int? tlId = null)
-      |      |     +-- Task<bool> Next()
-      |      |     +-- Task<bool> Previous()
-      |      |     +-- Task<bool> Stop()
-      |      |     +-- Task<bool> Pause()
-      |      |     +-- Task<bool> Resume()
-      |      |     +-- Task<(bool Succeeded, bool Result)> Seek(int timePosition)
-      |      |     +-- Task<(bool Succeeded, TlTrack Result)> GetCurrentTlTrack()
-      |      |     +-- Task<(bool Succeeded, Track Result)> GetCurrentTrack()
-      |      |     +-- Task<(bool Succeeded, string Result)> GetStreamTitle()
-      |      |     +-- Task<(bool Succeeded, int Result)> GetTimePosition()
-      |      |     +-- Task<(bool Succeeded, PlaybackState Result)> GetState()
-      |      |     +-- Task<bool> SetState(PlaybackState state)
+      |      |     +-- static Task<bool> Play(int? tlId = null)
+      |      |     +-- static Task<bool> Next()
+      |      |     +-- static Task<bool> Previous()
+      |      |     +-- static Task<bool> Stop()
+      |      |     +-- static Task<bool> Pause()
+      |      |     +-- static Task<bool> Resume()
+      |      |     +-- static Task<(bool Succeeded, bool Result)> Seek(int timePosition)
+      |      |     +-- static Task<(bool Succeeded, TlTrack Result)> GetCurrentTlTrack()
+      |      |     +-- static Task<(bool Succeeded, Track Result)> GetCurrentTrack()
+      |      |     +-- static Task<(bool Succeeded, string Result)> GetStreamTitle()
+      |      |     +-- static Task<(bool Succeeded, int Result)> GetTimePosition()
+      |      |     +-- static Task<(bool Succeeded, PlaybackState Result)> GetState()
+      |      |     +-- static Task<bool> SetState(PlaybackState state)
       |      |
       |      +-- Library
       |      |     |
       |      |     +-- Query
       |      |     |
-      |      |     +-- Task<(bool Succeeded, Ref[] Result)> Browse(string uri)
-      |      |     +-- Task<(bool Succeeded, SearchResult[] Result)> Search(Query query, string[] uris = null, bool exact = false)
-      |      |     +-- Task<(bool Succeeded, SearchResult[] Result)> Search(
+      |      |     +-- static Task<(bool Succeeded, Ref[] Result)> Browse(string uri)
+      |      |     +-- static Task<(bool Succeeded, SearchResult[] Result)> Search(Query query, string[] uris = null, bool exact = false)
+      |      |     +-- static Task<(bool Succeeded, SearchResult[] Result)> Search(
       |      |     |       string[] queryUri = null,
       |      |     |       string[] queryTrackName = null,
       |      |     |       string[] queryAlbum = null,
@@ -83,7 +81,7 @@ Namespace
       |      |     |       bool exact = false
       |      |     |   )
       |      |     |
-      |      |     +-- Task<(bool Succeeded, SearchResult[] Result)> Search(
+      |      |     +-- static Task<(bool Succeeded, SearchResult[] Result)> Search(
       |      |     |       string queryUri = null,
       |      |     |       string queryTrackName = null,
       |      |     |       string queryAlbum = null,
@@ -100,37 +98,117 @@ Namespace
       |      |     |       bool exact = false
       |      |     |   )
       |      |     |
-      |      |     +-- Task<(bool Succeeded, Dictionary<string, Track[]> Result)> Lookup(string[] uris)
-      |      |     +-- Task<(bool Succeeded, Dictionary<string, Track[]> Result)> Lookup(string uris)
-      |      |     +-- Task<bool> Refresh(string uri = null)
-      |      |     +-- Task<(bool Succeeded, Dictionary<string, Image[]> Result)> GetImages(string[] uris)
-      |      |     +-- Task<(bool Succeeded, Image[] Result)> GetImages(string uri)
+      |      |     +-- static Task<(bool Succeeded, Dictionary<string, Track[]> Result)> Lookup(string[] uris)
+      |      |     +-- static Task<(bool Succeeded, Dictionary<string, Track[]> Result)> Lookup(string uris)
+      |      |     +-- static Task<bool> Refresh(string uri = null)
+      |      |     +-- static Task<(bool Succeeded, Dictionary<string, Image[]> Result)> GetImages(string[] uris)
+      |      |     +-- static Task<(bool Succeeded, Image[] Result)> GetImages(string uri)
       |      |
       |      +-- Playlists
       |      |     |
-      |      |     +-- Task<(bool Succeeded, string[] Result)> GetUriSchemes()
-      |      |     +-- Task<(bool Succeeded, Ref[] Result)> AsList()
-      |      |     +-- Task<(bool Succeeded, Ref[] Result)> GetItems(string uri)
-      |      |     +-- Task<(bool Succeeded, Playlist Result)> Lookup(string uri)
-      |      |     +-- Task<bool> Refresh(string uriScheme = null)
-      |      |     +-- Task<(bool Succeeded, Playlist Result)> Create(string name, string uriScheme = null)
-      |      |     +-- Task<(bool Succeeded, Playlist Result)> Save(Playlist playlist)
-      |      |     +-- Task<(bool Succeeded, bool Result)> Delete(string uri)
+      |      |     +-- static Task<(bool Succeeded, string[] Result)> GetUriSchemes()
+      |      |     +-- static Task<(bool Succeeded, Ref[] Result)> AsList()
+      |      |     +-- static Task<(bool Succeeded, Ref[] Result)> GetItems(string uri)
+      |      |     +-- static Task<(bool Succeeded, Playlist Result)> Lookup(string uri)
+      |      |     +-- static Task<bool> Refresh(string uriScheme = null)
+      |      |     +-- static Task<(bool Succeeded, Playlist Result)> Create(string name, string uriScheme = null)
+      |      |     +-- static Task<(bool Succeeded, Playlist Result)> Save(Playlist playlist)
+      |      |     +-- static Task<(bool Succeeded, bool Result)> Delete(string uri)
       |      |
       |      +-- Mixer
       |      |     |
-      |      |     +-- Task<(bool Succeeded, bool Result)> GetMute()
-      |      |     +-- Task<(bool Succeeded, bool Result)> SetMute(bool mute)
-      |      |     +-- Task<(bool Succeeded, int? Result)> GetVolume()
-      |      |     +-- Task<(bool Succeeded, bool Result)> SetVolume(int volume)
+      |      |     +-- static Task<(bool Succeeded, bool Result)> GetMute()
+      |      |     +-- static Task<(bool Succeeded, bool Result)> SetMute(bool mute)
+      |      |     +-- static Task<(bool Succeeded, int? Result)> GetVolume()
+      |      |     +-- static Task<(bool Succeeded, bool Result)> SetVolume(int volume)
       |      |
       |      +-- History
       |      |     |
-      |      |     +-- Task<(bool Succeeded, Dictionary<long, Ref> Result)> GetHistory()
-      |      |     +-- Task<(bool Succeeded, int Result)> GetLength()
+      |      |     +-- static Task<(bool Succeeded, Dictionary<long, Ref> Result)> GetHistory()
+      |      |     +-- static Task<(bool Succeeded, int Result)> GetLength()
       |      |
+      |      +-- CoreListener
+      |            |
+      |            +-- static EventHandler<MuteChangedEventArgs> MuteChanged
+      |            +-- static EventHandler<OptionsChangedEventArgs> OptionsChanged
+      |            +-- static EventHandler<PlaybackStateChangedEventArgs> PlaybackStateChanged
+      |            +-- static EventHandler<PlaylistChangedEventArgs> PlaylistChanged
+      |            +-- static EventHandler<PlaylistDeletedEventArgs> PlaylistDeleted
+      |            +-- static EventHandler<PlaylistsLoadedEventArgs> PlaylistsLoaded
+      |            +-- static EventHandler<SeekedEventArgs> Seeked
+      |            +-- static EventHandler<StreamTitleChangedEventArgs> StreamTitleChanged
+      |            +-- static EventHandler<TracklistChangedEventArgs> TracklistChanged
+      |            +-- static EventHandler<TrackPlaybackEndedEventArgs> TrackPlaybackEnded
+      |            +-- static EventHandler<TrackPlaybackPausedEventArgs> TrackPlaybackPaused
+      |            +-- static EventHandler<TrackPlaybackResumedEventArgs> TrackPlaybackResumed
+      |            +-- static EventHandler<TrackPlaybackStartedEventArgs> TrackPlaybackStarted
+      |            +-- static EventHandler<VolumeChangedEventArgs> VolumeChanged
+      |            +-- static EventHandler<UnexpectedEventEventArgs> UnexpectedEvent
       |
       +-- Models
+      |     |
+      |     +-- Enums
+      |     |     |
+      |     |     +-- enum PlaybackState
+      |     |     +-- enum RefType
+      |     |
+      |     +-- EventArgs
+      |     |     |
+      |     |     +-- MuteChangedEventArgs
+      |     |     |     |
+      |     |     |     +-- bool Mute
+      |     |     |
+      |     |     +-- OptionsChangedEventArgs
+      |     |     |
+      |     |     +-- PlaybackStateChanged
+      |     |     |     |
+      |     |     |     +-- PlaybackState OldState
+      |     |     |     +-- PlaybackState NewState
+      |     |     |
+      |     |     +-- PlaylistChangedEventArgs
+      |     |     |     |
+      |     |     |     +-- Playlist Playlist
+      |     |     |
+      |     |     +-- PlaylistDeletedEventArgs
+      |     |     |     |
+      |     |     |     +-- string Uri
+      |     |     |
+      |     |     +-- PlaylistsLoadedEventArgs
+      |     |     |
+      |     |     +-- SeekedEventArgs
+      |     |     |     |
+      |     |     |     +-- int TimePosition
+      |     |     |
+      |     |     +-- StreamTitleChangedEventArgs
+      |     |     |     |
+      |     |     |     +-- string Title
+      |     |     |
+      |     |     +-- TracklistChangedEventArgs
+      |     |     |
+      |     |     +-- TrackPlaybackEndedEventArgs
+      |     |     |     |
+      |     |     |     +-- TlTrack TlTrack
+      |     |     |     +-- int TimePosition
+      |     |     |
+      |     |     +-- TrackPlaybackPausedEventArgs
+      |     |     |     |
+      |     |     |     +-- TlTrack TlTrack
+      |     |     |     +-- int TimePosition
+      |     |     |
+      |     |     +-- TrackPlaybackResumedEventArgs
+      |     |     |     |
+      |     |     |     +-- TlTrack TlTrack
+      |     |     |     +-- int TimePosition
+      |     |     |
+      |     |     +-- TrackPlaybackStartedEventArgs
+      |     |     |     |
+      |     |     |     +-- TlTrack TlTrack
+      |     |     |
+      |     |     +-- VolumeChangedEventArgs
+      |     |     |     |
+      |     |     |     +-- int Volume
+      |     |     |
+      |     |     +-- UnexpectedEventEventArgs
       |     |
       |     +-- Album
       |     |     |
@@ -204,14 +282,18 @@ Namespace
       |
       +-- Images
       |     |
-      |     +-- Task<System.Drawing.Image> GetNative(Mopidy.Models.Image image)
+      |     +-- static Task<System.Drawing.Image> GetNative(Mopidy.Models.Image image)
+      |     +-- static Task<System.Drawing.Image> GetNative(string uri)
       |
       +-- Settings
             |
-            +-- Protocol
+            +-- enum Connection
+            +-- enum Encryption
             |
-            +-- Protocol ServerProtocol
-            +-- string ServerAddress
-            +-- int Port
-            +-- readonly string BaseUrl
-            +-- readonly string RpcUrl
+            +-- static Connection ConnectionType
+            +-- static Encryption EncryptionType
+            +-- static string ServerAddress
+            +-- static int ServerPort
+            +-- static readonly string BaseUrl
+            +-- static readonly string RpcUrl
+            +-- static readonly string WebSocketUrl
