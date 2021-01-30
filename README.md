@@ -29,12 +29,24 @@ if (res.Succeeded)
         System.Diagnostics.Debug.WriteLine(tlTrack.Track.Name);
 ```
 
+Node:  
+The default setting is to connect by Http-Post.  
+In this case, ``Mopidy.Core.CoreListener`` does not work.  
+It is necessary to intentionally acquire and update the state by polling or other means.  
 
 #### Added limitted support for WebSocket on ver 1.1.0.  
 
-This feature requires that Csrf-Protection be disabled.  
+Retrieving event notifications is only available over ``WebSocket`` connections.  
 
-**Warning: DO NOT USE this feature when you are connecting mopidy server directly to the Internet.**  
+**!! Warning !! : DO NOT USE this feature when you are connecting mopidy server directly to the Internet.**  
+
+This feature requires that Csrf-Protection be disabled.  
+This setting is officially deprecated by mopidy.  
+
+[Link: Mopidy-HTTP csrf_protection](https://docs.mopidy.com/en/latest/ext/http/#confval-http-csrf_protection):    
+```
+This config should only be disabled if you understand the security implications and require the HTTP server’s old behaviour.
+```
 
 How to get event notifications:  
 
