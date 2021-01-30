@@ -244,8 +244,6 @@
       |     |
       |     +-- Ref
       |     |     |
-      |     |     +-- RefType
-      |     |     |
       |     |     +-- string Name
       |     |     +-- RefType Type
       |     |     +-- string Uri
