@@ -33,7 +33,7 @@ namespace Mopidy.Models.JsonRpcs
         /// </remarks>
         public async Task<JsonRpcParamsResponse> Exec(JsonRpcQuery request)
         {
-            var url = Settings.RpcUrl;
+            var url = Settings.HttpPostUrl;
 
             HttpResponseMessage message;
             using (var client = new HttpClient())

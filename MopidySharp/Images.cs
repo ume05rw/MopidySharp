@@ -13,25 +13,41 @@ namespace Mopidy
     public class Images
     {
         /// <summary>
-        /// Get C# System.Drawing.Image Object
+        /// Get System.Drawing.Image Object
         /// </summary>
         /// <param name="image"></param>
         /// <returns></returns>
-        public static async Task<Image> GetNative(Models.Image image)
+        public static Task<Image> GetNative(Models.Image image)
         {
-            if (string.IsNullOrEmpty(image.Uri))
+            if (image == null)
                 return null;
+
+            return Images.GetNative(image.Uri);
+        }
+
+        /// <summary>
+        /// Get System.Drawing.Image Object
+        /// </summary>
+        /// <param name="uri"></param>
+        /// <returns></returns>
+        public static async Task<Image> GetNative(string uri)
+        {
+            if (string.IsNullOrEmpty(uri))
+                return null;
+
+            var fullUri = (uri.ToLowerInvariant().StartsWith("http"))
+                ? uri
+                : Settings.BaseUrl + uri;
 
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Add("User-Agent", ".NET Foundation Repository Reporter");
-                var url = Settings.BaseUrl + image.Uri;
 
                 HttpResponseMessage message = null;
                 try
                 {
-                    message = await client.GetAsync(url);
+                    message = await client.GetAsync(fullUri);
                 }
                 catch (Exception ex)
                 {
