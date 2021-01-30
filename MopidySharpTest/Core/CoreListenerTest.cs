@@ -17,7 +17,7 @@ namespace MopidySharpTest.Core
         [Fact]
         public async Task MuteChangedTest()
         {
-            if (Mopidy.Settings.ConnectionMethod != Mopidy.Settings.Connection.WebSocket)
+            if (Mopidy.Settings.ConnectionType != Mopidy.Settings.Connection.WebSocket)
                 return;
 
             var res1 = await Mixer.GetMute();
@@ -45,7 +45,7 @@ namespace MopidySharpTest.Core
         [Fact]
         public async Task OptionsChangedTest()
         {
-            if (Mopidy.Settings.ConnectionMethod != Mopidy.Settings.Connection.WebSocket)
+            if (Mopidy.Settings.ConnectionType != Mopidy.Settings.Connection.WebSocket)
                 return;
 
             var res1 = await Tracklist.GetConsume();
@@ -94,7 +94,7 @@ namespace MopidySharpTest.Core
         [Fact]
         public async Task PlaybackStateChangedTest()
         {
-            if (Mopidy.Settings.ConnectionMethod != Mopidy.Settings.Connection.WebSocket)
+            if (Mopidy.Settings.ConnectionType != Mopidy.Settings.Connection.WebSocket)
                 return;
 
             var res1 = await Tracklist.Clear();
@@ -186,7 +186,7 @@ namespace MopidySharpTest.Core
         [Fact]
         public async Task PlaylistEventTest()
         {
-            if (Mopidy.Settings.ConnectionMethod != Mopidy.Settings.Connection.WebSocket)
+            if (Mopidy.Settings.ConnectionType != Mopidy.Settings.Connection.WebSocket)
                 return;
 
             var loaded = false;
@@ -258,7 +258,7 @@ namespace MopidySharpTest.Core
         [Fact]
         public async Task TracklistEventTest()
         {
-            if (Mopidy.Settings.ConnectionMethod != Mopidy.Settings.Connection.WebSocket)
+            if (Mopidy.Settings.ConnectionType != Mopidy.Settings.Connection.WebSocket)
                 return;
 
             var seeked = false;
@@ -375,7 +375,7 @@ namespace MopidySharpTest.Core
         [Fact]
         public async Task VolumeChangedTest()
         {
-            if (Mopidy.Settings.ConnectionMethod != Mopidy.Settings.Connection.WebSocket)
+            if (Mopidy.Settings.ConnectionType != Mopidy.Settings.Connection.WebSocket)
                 return;
 
             var res1 = await Mixer.GetVolume();

@@ -12,7 +12,7 @@ namespace Mopidy.Models.JsonRpcs
         {
             if (Query._instance == null)
             {
-                switch (Settings.ConnectionMethod)
+                switch (Settings.ConnectionType)
                 {
                     case Settings.Connection.HttpPost:
                         Query._instance = QueryHttp.Get();
@@ -21,7 +21,7 @@ namespace Mopidy.Models.JsonRpcs
                         Query._instance = QueryWebSocket.Get();
                         break;
                     default:
-                        throw new NotImplementedException($"Unexpected Connection Method: {Settings.ConnectionMethod}");
+                        throw new NotImplementedException($"Unexpected Connection Method: {Settings.ConnectionType}");
                 }
             }
 

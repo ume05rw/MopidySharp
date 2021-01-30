@@ -22,19 +22,19 @@
         }
 
         /// <summary>
-        /// Protocol
+        /// Encryption
         /// </summary>
-        public enum UrlScheme
+        public enum Encryption
         {
             /// <summary>
-            /// http
+            /// use http:, ws:
             /// </summary>
-            Http,
+            None,
 
             /// <summary>
-            /// https
+            /// use https:, wss:
             /// </summary>
-            Https
+            Ssl
         }
 
         private const string UrlSchemeHttp = "http";
@@ -46,33 +46,33 @@
         private static readonly Settings _instance = new Settings();
 
         /// <summary>
-        /// Connection Method, Http-Post or WebSocket
+        /// Connection Type, Http-Post or WebSocket. Default is Http-Post.
         /// </summary>
-        public static Connection ConnectionMethod
+        public static Connection ConnectionType
         {
             get
             {
-                return Settings._instance._connection;
+                return Settings._instance._connectionType;
             }
             set
             {
-                Settings._instance._connection = value;
+                Settings._instance._connectionType = value;
                 Settings._instance.SetUrls();
             }
         }
 
         /// <summary>
-        /// The URL Scheme where Mopidy is running. http or https.
+        /// SSL or None. Default is None.
         /// </summary>
-        public static UrlScheme ServerUrlScheme
+        public static Encryption EncryptionType
         {
             get
             {
-                return Settings._instance._serverProtocol;
+                return Settings._instance._encryptionType;
             }
             set
             {
-                Settings._instance._serverProtocol = value;
+                Settings._instance._encryptionType = value;
                 Settings._instance.SetUrls();
             }
         }
@@ -97,15 +97,15 @@
         /// <summary>
         /// Port of the mopidy connection. Default is 6680
         /// </summary>
-        public static int Port
+        public static int ServerPort
         {
             get
             {
-                return Settings._instance._port;
+                return Settings._instance._serverPort;
             }
             set
             {
-                Settings._instance._port = value;
+                Settings._instance._serverPort = value;
                 Settings._instance.SetUrls();
             }
         }
@@ -126,30 +126,30 @@
         public static string WebSocketUrl => Settings._instance._webSocketUrl;
 
 
-        private Connection _connection;
-        private UrlScheme _serverProtocol;
+        private Connection _connectionType;
+        private Encryption _encryptionType;
         private string _serverAddress;
-        private int _port;
+        private int _serverPort;
         private string _baseUrl;
         private string _httpPostUrl;
         private string _webSocketUrl;
 
         private Settings()
         {
-            this._connection = Connection.HttpPost;
-            this._serverProtocol = UrlScheme.Http;
+            this._connectionType = Connection.HttpPost;
+            this._encryptionType = Encryption.None;
             this._serverAddress = "localhost";
-            this._port = 6680;
+            this._serverPort = 6680;
             this.SetUrls();
         }
 
         private void SetUrls()
         {
-            var hostAndPort = $"://{this._serverAddress}:{this._port}";
-            var postToProtocol = (this._serverProtocol == UrlScheme.Http)
+            var hostAndPort = $"://{this._serverAddress}:{this._serverPort}";
+            var postToProtocol = (this._encryptionType == Encryption.None)
                 ? Settings.UrlSchemeHttp
                 : Settings.UrlSchemeHttps;
-            var wsProtocol = (this._serverProtocol == UrlScheme.Http)
+            var wsProtocol = (this._encryptionType == Encryption.None)
                 ? Settings.UrlSchemeWebSocket
                 : Settings.UrlSchemeWebSocketSsl;
 

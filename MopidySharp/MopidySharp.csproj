@@ -30,6 +30,7 @@ Change enum namespace, Mopidy.Core.Method.xxx -&gt; Mopidy.Models.Enums.xxx
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\EventArgs\OnEventEventArgs.cs" />
     <Compile Remove="Models\JsonRpcs\JsonRpcParamsQuery.cs" />
     <Compile Remove="Models\JsonRpcs\JsonRpcResult.cs" />
     <Compile Remove="Models\JsonRpcs\JsonRpcResultError.cs" />
