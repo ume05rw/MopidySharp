@@ -264,7 +264,7 @@ namespace Mopidy.Core
         }
 
 
-        private static readonly Models.JsonRpcs.HttpQuery _query = Models.JsonRpcs.HttpQuery.Get();
+        private static readonly Models.JsonRpcs.QueryHttp _query = Models.JsonRpcs.QueryHttp.Get();
 
         /// <summary>
         /// Browse directories and tracks at the given uri.

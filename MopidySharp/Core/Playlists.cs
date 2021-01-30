@@ -52,7 +52,7 @@ namespace Mopidy.Core
             public string Uri { get; set; }
         }
 
-        private static readonly HttpQuery _query = HttpQuery.Get();
+        private static readonly QueryHttp _query = QueryHttp.Get();
 
 
         /// <summary>

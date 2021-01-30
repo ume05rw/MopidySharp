@@ -17,7 +17,7 @@ namespace Mopidy.Core
         private const string MethodGetVolume = "core.mixer.get_volume";
         private const string MethodSetVolume = "core.mixer.set_volume";
 
-        private static readonly HttpQuery _query = HttpQuery.Get();
+        private static readonly QueryHttp _query = QueryHttp.Get();
 
         /// <summary>
         /// Get mute state.

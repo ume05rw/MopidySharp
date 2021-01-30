@@ -15,7 +15,7 @@ namespace Mopidy.Core
         private const string MethodGetUriSchemes = "core.get_uri_schemes";
         private const string MethodGetVersion = "core.get_version";
 
-        private static readonly HttpQuery _query = HttpQuery.Get();
+        private static readonly QueryHttp _query = QueryHttp.Get();
 
         /// <summary>
         /// Get list of URI schemes we can handle

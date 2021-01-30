@@ -62,7 +62,7 @@ namespace Mopidy.Core
             Paused
         }
 
-        private static readonly HttpQuery _query = HttpQuery.Get();
+        private static readonly QueryHttp _query = QueryHttp.Get();
 
         #region "Playback control"
 
