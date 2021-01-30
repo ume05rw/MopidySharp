@@ -42,6 +42,8 @@ namespace Mopidy.Models.EventArgs.Interfaces
 
                         return args;
                     }
+
+                // ** Can't receive "on_event" ? **
                 //case EventArgs.OnEventEventArgs.EventName:
                 //    {
                 //        var args = new OnEventEventArgs();
@@ -49,6 +51,7 @@ namespace Mopidy.Models.EventArgs.Interfaces
 
                 //        return args;
                 //    }
+
                 case EventArgs.OptionsChangedEventArgs.EventName:
                     {
                         var args = new OptionsChangedEventArgs();

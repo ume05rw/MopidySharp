@@ -211,7 +211,6 @@ namespace Mopidy.Models.JsonRpcs
 
             var json = Encoding.UTF8.GetString(stream.ToArray());
 
-            // TODO: イベントメッセージの形式を調べる。
             if (string.IsNullOrEmpty(json))
                 return;
 

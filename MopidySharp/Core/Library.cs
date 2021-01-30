@@ -291,10 +291,7 @@ namespace Mopidy.Core
             var response = await Library._query.Exec(request);
 
             if (response.Error != null)
-            {
-                // TODO: Logger実装, Logger.Write(response.Error);
                 return (false, null);
-            }
 
             // 戻り値の型は、[ JObject | JArray | JValue | null ] のどれか。
             // 型が違うとパースエラーになる。
@@ -335,10 +332,7 @@ namespace Mopidy.Core
             var response = await Library._query.Exec(request);
 
             if (response.Error != null)
-            {
-                // TODO: Logger実装, Logger.Write(response.Error);
                 return (false, null);
-            }
 
             // 戻り値の型は、[ JObject | JArray | JValue | null ] のどれか。
             // 型が違うとパースエラーになる。
@@ -514,10 +508,7 @@ namespace Mopidy.Core
             var response = await Library._query.Exec(request);
 
             if (response.Error != null)
-            {
-                // TODO: Logger実装, Logger.Write(response.Error);
                 return (false, null);
-            }
 
             // 戻り値の型は、[ JObject | JArray | JValue | null ] のどれか。
             // 型が違うとパースエラーになる。
@@ -560,10 +551,7 @@ namespace Mopidy.Core
             var response = await Library._query.Exec(request);
 
             if (response.Error != null)
-            {
-                // TODO: Logger実装, Logger.Write(response.Error);
                 return false;
-            }
 
             return true;
         }
@@ -595,10 +583,7 @@ namespace Mopidy.Core
             var response = await Library._query.Exec(request);
 
             if (response.Error != null)
-            {
-                // TODO: Logger実装, Logger.Write(response.Error);
                 return (false, null);
-            }
 
             // 戻り値の型は、[ JObject | JArray | JValue | null ] のどれか。
             // 型が違うとパースエラーになる。
@@ -693,11 +678,8 @@ namespace Mopidy.Core
         //    );
         //    var response = await Library._query.Exec(request);
         //    if (response.Error != null)
-        //    {
-        //        // TODO: Logger実装, Logger.Write(response.Error);
         //        return (false, null);
-        //    }
-        //    // TODO: 注意、戻り値の型を確認する。
+        //
         //    // 戻り値の型は、[ JObject | JArray | JValue | null ] のどれか。
         //    // 型が違うとパースエラーになる。
         //    var result = JObject.FromObject(response.Result)

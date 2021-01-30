@@ -29,6 +29,7 @@ namespace Mopidy.Core
                 return;
             }
 
+            // ** Can't receive "on_event" ? **
             //if (eventArgs is OnEventEventArgs)
             //{
             //    CoreListener.OnEvent?.Invoke(

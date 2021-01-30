@@ -34,10 +34,7 @@ namespace Mopidy.Core
             var response = await Mixer._query.Exec(request);
 
             if (response.Error != null)
-            {
-                // TODO: Logger実装, Logger.Write(response.Error);
                 return (false, false);
-            }
 
             // 戻り値の型は、[ JObject | JArray | JValue | null ] のどれか。
             // 型が違うとパースエラーになる。
@@ -69,10 +66,7 @@ namespace Mopidy.Core
             var response = await Mixer._query.Exec(request);
 
             if (response.Error != null)
-            {
-                // TODO: Logger実装, Logger.Write(response.Error);
                 return (false, false);
-            }
 
             // 戻り値の型は、[ JObject | JArray | JValue | null ] のどれか。
             // 型が違うとパースエラーになる。
@@ -96,10 +90,7 @@ namespace Mopidy.Core
             var response = await Mixer._query.Exec(request);
 
             if (response.Error != null)
-            {
-                // TODO: Logger実装, Logger.Write(response.Error);
                 return (false, -1);
-            }
 
             // 戻り値の型は、[ JObject | JArray | JValue | null ] のどれか。
             // 型が違うとパースエラーになる。
@@ -132,10 +123,7 @@ namespace Mopidy.Core
             var response = await Mixer._query.Exec(request);
 
             if (response.Error != null)
-            {
-                // TODO: Logger実装, Logger.Write(response.Error);
                 return (false, false);
-            }
 
             // 戻り値の型は、[ JObject | JArray | JValue | null ] のどれか。
             // 型が違うとパースエラーになる。
