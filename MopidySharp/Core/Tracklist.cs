@@ -100,7 +100,7 @@ namespace Mopidy.Core
         }
 
 
-        private static readonly Query _query = Query.Get();
+        private static readonly HttpQuery _query = HttpQuery.Get();
 
         #region "Manipulating"
 

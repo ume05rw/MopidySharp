@@ -17,7 +17,7 @@ namespace Mopidy.Core
         private const string MethodGetHistory = "core.history.get_history";
         private const string MethodGetLength = "core.history.get_length";
 
-        private static readonly Query _query = Query.Get();
+        private static readonly HttpQuery _query = HttpQuery.Get();
 
         /// <summary>
         /// Get the track history.

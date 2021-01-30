@@ -7,18 +7,18 @@ using System.Threading.Tasks;
 
 namespace Mopidy.Models.JsonRpcs
 {
-    internal class Query
+    internal class HttpQuery
     {
-        internal static Query _instance = null;
-        internal static Query Get()
+        internal static HttpQuery _instance = null;
+        internal static HttpQuery Get()
         {
-            if (Query._instance == null)
-                Query._instance = new Query();
+            if (HttpQuery._instance == null)
+                HttpQuery._instance = new HttpQuery();
 
-            return Query._instance;
+            return HttpQuery._instance;
         }
 
-        private Query()
+        private HttpQuery()
         {
         }
 
