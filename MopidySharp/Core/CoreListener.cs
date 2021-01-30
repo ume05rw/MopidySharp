@@ -255,7 +255,7 @@ namespace Mopidy.Core
         public static EventHandler<SeekedEventArgs> Seeked;
 
         /// <summary>
-        /// StreamTitleChanged
+        /// StreamTitleChanged ** Not Tested. When happen? **
         /// </summary>
         /// <remarks>
         /// Called whenever the currently playing stream title changes.
@@ -324,6 +324,7 @@ namespace Mopidy.Core
         /// Not Implemented Event.
         /// </remarks>
         public static EventHandler<UnexpectedEventEventArgs> UnexpectedEvent;
+
 
         private CoreListener()
         {

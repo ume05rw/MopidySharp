@@ -16,7 +16,7 @@ namespace Mopidy.Models.EventArgs
         /// <summary>
         /// the track that just started playing
         /// </summary>
-        [JsonProperty("tl_track ")]
+        [JsonProperty("tl_track")]
         public TlTrack TlTrack { get; set; }
     }
 }

@@ -245,7 +245,10 @@ namespace Mopidy.Models.JsonRpcs
             }
 
             if (recieved is IEventArgs)
+            {
+                //Debug.WriteLine($"Event Recieved: {json}");
                 CoreListener.FireEvent((IEventArgs)recieved);
+            }
         }
 
         public async Task<JsonRpcParamsResponse> Exec(JsonRpcQuery request)

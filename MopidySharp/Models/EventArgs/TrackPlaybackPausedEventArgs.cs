@@ -16,13 +16,13 @@ namespace Mopidy.Models.EventArgs
         /// <summary>
         /// the track that was playing when playback paused
         /// </summary>
-        [JsonProperty("tl_track ")]
+        [JsonProperty("tl_track")]
         public TlTrack TlTrack { get; set; }
 
         /// <summary>
         /// the time position in milliseconds
         /// </summary>
-        [JsonProperty("time_position ")]
+        [JsonProperty("time_position")]
         public int TimePosition { get; set; }
     }
 }
