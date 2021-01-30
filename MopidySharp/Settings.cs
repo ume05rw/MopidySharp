@@ -39,6 +39,8 @@
 
         private const string UrlSchemeHttp = "http";
         private const string UrlSchemeHttps = "https";
+        private const string UrlSchemeWebSocket = "ws";
+        private const string UrlSchemeWebSocketSsl = "wss";
         private const string DirHttpPost = "/mopidy/rpc";
         private const string DirWebSocket = "/mopidy/ws";
         private static readonly Settings _instance = new Settings();
@@ -143,12 +145,17 @@
 
         private void SetUrls()
         {
-            var protocolString = (this._serverProtocol == UrlScheme.Http)
+            var hostAndPort = $"://{this._serverAddress}:{this._port}";
+            var postToProtocol = (this._serverProtocol == UrlScheme.Http)
                 ? Settings.UrlSchemeHttp
                 : Settings.UrlSchemeHttps;
-            this._baseUrl = $"{protocolString}://{this._serverAddress}:{this._port}";
+            var wsProtocol = (this._serverProtocol == UrlScheme.Http)
+                ? Settings.UrlSchemeWebSocket
+                : Settings.UrlSchemeWebSocketSsl;
+
+            this._baseUrl = $"{postToProtocol}{hostAndPort}";
             this._httpPostUrl = $"{this._baseUrl}{Settings.DirHttpPost}";
-            this._webSocketUrl = $"{this._baseUrl}{Settings.DirWebSocket}";
+            this._webSocketUrl = $"{wsProtocol}{hostAndPort}{Settings.DirWebSocket}";
         }
     }
 }

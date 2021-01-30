@@ -1,5 +1,6 @@
 using Mopidy.Models;
 using Mopidy.Models.JsonRpcs;
+using Mopidy.Models.JsonRpcs.Interfaces;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
@@ -100,7 +101,7 @@ namespace Mopidy.Core
         }
 
 
-        private static readonly QueryHttp _query = QueryHttp.Get();
+        private static readonly IQuery _query = Query.Get();
 
         #region "Manipulating"
 

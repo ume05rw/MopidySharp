@@ -1,5 +1,7 @@
 using Mopidy.Models;
+using Mopidy.Models.Enums;
 using Mopidy.Models.JsonRpcs;
+using Mopidy.Models.JsonRpcs.Interfaces;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Threading.Tasks;
@@ -33,36 +35,36 @@ namespace Mopidy.Core
         private const string MethodGetState = "core.playback.get_state";
         private const string MethodSetState = "core.playback.set_state";
 
-        // PlaybackState String
-        private const string PlaybackStateStopped = "stopped";
-        private const string PlaybackStatePlaying = "playing";
-        private const string PlaybackStatePaused = "paused";
+        //// PlaybackState String
+        //private const string PlaybackStateStopped = "stopped";
+        //private const string PlaybackStatePlaying = "playing";
+        //private const string PlaybackStatePaused = "paused";
 
-        /// <summary>
-        /// PlaybackState
-        /// </summary>
-        /// <remarks>
-        /// Result of GetState, Argument of SetState
-        /// </remarks>
-        public enum PlaybackState
-        {
-            /// <summary>
-            /// Stopped
-            /// </summary>
-            Stopped,
+        ///// <summary>
+        ///// PlaybackState
+        ///// </summary>
+        ///// <remarks>
+        ///// Result of GetState, Argument of SetState
+        ///// </remarks>
+        //public enum PlaybackState
+        //{
+        //    /// <summary>
+        //    /// Stopped
+        //    /// </summary>
+        //    Stopped,
 
-            /// <summary>
-            /// Playing
-            /// </summary>
-            Playing,
+        //    /// <summary>
+        //    /// Playing
+        //    /// </summary>
+        //    Playing,
 
-            /// <summary>
-            /// Paused
-            /// </summary>
-            Paused
-        }
+        //    /// <summary>
+        //    /// Paused
+        //    /// </summary>
+        //    Paused
+        //}
 
-        private static readonly QueryHttp _query = QueryHttp.Get();
+        private static readonly IQuery _query = Query.Get();
 
         #region "Playback control"
 
@@ -389,8 +391,7 @@ namespace Mopidy.Core
             // 戻り値の型は、[ JObject | JArray | JValue | null ] のどれか。
             // 型が違うとパースエラーになる。
 
-            var stateString = JValue.FromObject(response.Result).ToObject<string>();
-            var result = Playback.GetPlaybackState(stateString);
+            var result = JValue.FromObject(response.Result).ToObject<PlaybackState>();
 
             return (true, result);
         }
@@ -402,13 +403,11 @@ namespace Mopidy.Core
         /// <returns></returns>
         public static async Task<bool> SetState(PlaybackState state)
         {
-            var stateString = Playback.GetPlaybackStateString(state);
-
             var request = JsonRpcFactory.CreateRequest(
                 Playback.MethodSetState,
                 new
                 {
-                    new_state = stateString
+                    new_state = state
                 }
             );
 
@@ -421,30 +420,6 @@ namespace Mopidy.Core
             }
 
             return true;
-        }
-
-        private static PlaybackState GetPlaybackState(string stateString)
-        {
-            switch (stateString)
-            {
-                case Playback.PlaybackStateStopped: return PlaybackState.Stopped;
-                case Playback.PlaybackStatePlaying: return PlaybackState.Playing;
-                case Playback.PlaybackStatePaused: return PlaybackState.Paused;
-                default:
-                    throw new FormatException($"Unexpected PlaybackStateString<{stateString}>");
-            }
-        }
-
-        private static string GetPlaybackStateString(PlaybackState state)
-        {
-            switch (state)
-            {
-                case PlaybackState.Stopped: return Playback.PlaybackStateStopped;
-                case PlaybackState.Playing: return Playback.PlaybackStatePlaying;
-                case PlaybackState.Paused: return Playback.PlaybackStatePaused;
-                default:
-                    throw new ArgumentException($"Unexpected PlaybackState<{state}>");
-            }
         }
 
         #endregion "Playback states"

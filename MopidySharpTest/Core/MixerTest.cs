@@ -27,6 +27,8 @@ namespace MopidySharpTest.Core
             var res3 = await Mixer.GetMute();
             Assert.True(res3.Succeeded);
             Assert.True(res1.Result != res3.Result);
+
+            await Task.Delay(2000);
         }
 
         [Fact]

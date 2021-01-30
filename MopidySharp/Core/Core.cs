@@ -1,4 +1,5 @@
 ﻿using Mopidy.Models.JsonRpcs;
+using Mopidy.Models.JsonRpcs.Interfaces;
 using Newtonsoft.Json.Linq;
 using System.Threading.Tasks;
 
@@ -15,7 +16,7 @@ namespace Mopidy.Core
         private const string MethodGetUriSchemes = "core.get_uri_schemes";
         private const string MethodGetVersion = "core.get_version";
 
-        private static readonly QueryHttp _query = QueryHttp.Get();
+        private static readonly IQuery _query = Query.Get();
 
         /// <summary>
         /// Get list of URI schemes we can handle

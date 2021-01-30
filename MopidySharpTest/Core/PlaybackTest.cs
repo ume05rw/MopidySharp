@@ -1,4 +1,5 @@
 ﻿using Mopidy.Core;
+using Mopidy.Models.Enums;
 using MopidySharpTest.Bases;
 using System.Linq;
 using System.Threading.Tasks;
@@ -34,7 +35,7 @@ namespace MopidySharpTest.Core
             var res4 = await Playback.GetState();
             Assert.True(res4.Succeeded);
 
-            if (res4.Result != Playback.PlaybackState.Stopped)
+            if (res4.Result != PlaybackState.Stopped)
             {
                 var res5 = await Playback.Stop();
                 Assert.True(res5);
@@ -47,7 +48,7 @@ namespace MopidySharpTest.Core
 
             var res7 = await Playback.GetState();
             Assert.True(res7.Succeeded);
-            Assert.Equal(Playback.PlaybackState.Playing, res7.Result);
+            Assert.Equal(PlaybackState.Playing, res7.Result);
 
             var res8 = await Playback.Stop();
             Assert.True(res8);
@@ -61,21 +62,21 @@ namespace MopidySharpTest.Core
 
             var res10 = await Playback.GetState();
             Assert.True(res10.Succeeded);
-            Assert.Equal(Playback.PlaybackState.Playing, res10.Result);
+            Assert.Equal(PlaybackState.Playing, res10.Result);
 
             var res11 = await Playback.Next();
             Assert.True(res11);
 
             var res12 = await Playback.GetState();
             Assert.True(res12.Succeeded);
-            Assert.Equal(Playback.PlaybackState.Playing, res12.Result);
+            Assert.Equal(PlaybackState.Playing, res12.Result);
 
             var res13 = await Playback.Previous();
             Assert.True(res13);
 
             var res14 = await Playback.GetState();
             Assert.True(res14.Succeeded);
-            Assert.Equal(Playback.PlaybackState.Playing, res14.Result);
+            Assert.Equal(PlaybackState.Playing, res14.Result);
 
             var res15 = await Playback.Pause();
             Assert.True(res15);
@@ -84,21 +85,21 @@ namespace MopidySharpTest.Core
 
             var res16 = await Playback.GetState();
             Assert.True(res16.Succeeded);
-            Assert.Equal(Playback.PlaybackState.Paused, res16.Result);
+            Assert.Equal(PlaybackState.Paused, res16.Result);
 
             var res17 = await Playback.Next();
             Assert.True(res17);
 
             var res18 = await Playback.GetState();
             Assert.True(res18.Succeeded);
-            Assert.Equal(Playback.PlaybackState.Paused, res18.Result);
+            Assert.Equal(PlaybackState.Paused, res18.Result);
 
             var res19 = await Playback.Previous();
             Assert.True(res19);
 
             var res20 = await Playback.GetState();
             Assert.True(res20.Succeeded);
-            Assert.Equal(Playback.PlaybackState.Paused, res20.Result);
+            Assert.Equal(PlaybackState.Paused, res20.Result);
 
             var res21 = await Playback.Resume();
             Assert.True(res21);
@@ -107,7 +108,7 @@ namespace MopidySharpTest.Core
 
             var res22 = await Playback.GetState();
             Assert.True(res22.Succeeded);
-            Assert.Equal(Playback.PlaybackState.Playing, res22.Result);
+            Assert.Equal(PlaybackState.Playing, res22.Result);
 
             var res23 = await Playback.Stop();
             Assert.True(res21);
@@ -116,7 +117,7 @@ namespace MopidySharpTest.Core
 
             var res24 = await Playback.GetState();
             Assert.True(res24.Succeeded);
-            Assert.Equal(Playback.PlaybackState.Stopped, res24.Result);
+            Assert.Equal(PlaybackState.Stopped, res24.Result);
         }
 
         [Fact]
@@ -143,7 +144,7 @@ namespace MopidySharpTest.Core
             var res4 = await Playback.GetState();
             Assert.True(res4.Succeeded);
 
-            if (res4.Result != Playback.PlaybackState.Stopped)
+            if (res4.Result != PlaybackState.Stopped)
             {
                 var res5 = await Playback.Stop();
                 Assert.True(res5);
@@ -158,7 +159,7 @@ namespace MopidySharpTest.Core
 
             var res7 = await Playback.GetState();
             Assert.True(res7.Succeeded);
-            Assert.Equal(Playback.PlaybackState.Playing, res7.Result);
+            Assert.Equal(PlaybackState.Playing, res7.Result);
 
             var res8 = await Playback.GetTimePosition();
             Assert.True(res8.Succeeded);
@@ -199,7 +200,7 @@ namespace MopidySharpTest.Core
             var res4 = await Playback.GetState();
             Assert.True(res4.Succeeded);
 
-            if (res4.Result != Playback.PlaybackState.Stopped)
+            if (res4.Result != PlaybackState.Stopped)
             {
                 var res5 = await Playback.Stop();
                 Assert.True(res5);
@@ -250,7 +251,7 @@ namespace MopidySharpTest.Core
             var res4 = await Playback.GetState();
             Assert.True(res4.Succeeded);
 
-            if (res4.Result != Playback.PlaybackState.Stopped)
+            if (res4.Result != PlaybackState.Stopped)
             {
                 var res5 = await Playback.Stop();
                 Assert.True(res5);
@@ -263,26 +264,26 @@ namespace MopidySharpTest.Core
 
             await Task.Delay(PlaybackTest.WaitMsec);
 
-            var res7 = await Playback.SetState(Playback.PlaybackState.Paused);
+            var res7 = await Playback.SetState(PlaybackState.Paused);
             Assert.True(res7);
 
             var res8 = await Playback.GetState();
             Assert.True(res8.Succeeded);
-            Assert.Equal(Playback.PlaybackState.Paused, res8.Result);
+            Assert.Equal(PlaybackState.Paused, res8.Result);
 
-            var res9 = await Playback.SetState(Playback.PlaybackState.Stopped);
+            var res9 = await Playback.SetState(PlaybackState.Stopped);
             Assert.True(res9);
 
             var res10 = await Playback.GetState();
             Assert.True(res10.Succeeded);
-            Assert.Equal(Playback.PlaybackState.Stopped, res10.Result);
+            Assert.Equal(PlaybackState.Stopped, res10.Result);
 
-            var res11 = await Playback.SetState(Playback.PlaybackState.Playing);
+            var res11 = await Playback.SetState(PlaybackState.Playing);
             Assert.True(res11);
 
             var res12 = await Playback.GetState();
             Assert.True(res12.Succeeded);
-            Assert.Equal(Playback.PlaybackState.Playing, res12.Result);
+            Assert.Equal(PlaybackState.Playing, res12.Result);
 
             var res13 = await Playback.Stop();
             Assert.True(res13);

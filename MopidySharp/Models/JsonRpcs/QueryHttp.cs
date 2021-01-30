@@ -1,3 +1,4 @@
+using Mopidy.Models.JsonRpcs.Interfaces;
 using Newtonsoft.Json;
 using System;
 using System.Net.Http;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Mopidy.Models.JsonRpcs
 {
-    internal class QueryHttp
+    internal class QueryHttp : IQuery
     {
         internal static QueryHttp _instance = null;
         internal static QueryHttp Get()
@@ -34,8 +35,10 @@ namespace Mopidy.Models.JsonRpcs
         public async Task<JsonRpcParamsResponse> Exec(JsonRpcQuery request)
         {
             var url = Settings.HttpPostUrl;
+            var sendJson = JsonConvert.SerializeObject(request);
+            var content = new StringContent(sendJson, Encoding.UTF8, "application/json");
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
-            HttpResponseMessage message;
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Accept.Clear();
@@ -47,10 +50,31 @@ namespace Mopidy.Models.JsonRpcs
 
                 try
                 {
-                    var sendJson = JsonConvert.SerializeObject(request);
-                    var content = new StringContent(sendJson, Encoding.UTF8, "application/json");
-                    content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-                    message = await client.PostAsync(url, content);
+                    using (var message = await client.PostAsync(url, content))
+                    {
+                        var isQuery = (request is JsonRpcQueryRequest);
+                        if (!isQuery)
+                            return new JsonRpcParamsResponse();
+
+                        var json = await message.Content.ReadAsStringAsync();
+
+                        try
+                        {
+                            var response = JsonConvert.DeserializeObject<JsonRpcParamsResponse>(json);
+
+                            return response;
+                        }
+                        catch (Exception)
+                        {
+                            // Response is NOT JSON.
+                            var result = new JsonRpcParamsResponse()
+                            {
+                                Error = json
+                            };
+
+                            return result;
+                        }
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -62,33 +86,6 @@ namespace Mopidy.Models.JsonRpcs
                         response.Id = ((JsonRpcQueryRequest)request).Id;
 
                     return response;
-                }
-
-                var json = await message.Content.ReadAsStringAsync();
-
-                if (json == null || string.IsNullOrEmpty(json))
-                {
-                    // The response of the void method is empty.
-                    return new JsonRpcParamsResponse();
-                }
-                else
-                {
-                    try
-                    {
-                        var response = JsonConvert.DeserializeObject<JsonRpcParamsResponse>(json);
-
-                        return response;
-                    }
-                    catch (Exception)
-                    {
-                        // Response is NOT JSON.
-                        var result = new JsonRpcParamsResponse()
-                        {
-                            Error = json
-                        };
-
-                        return result;
-                    }
                 }
             }
         }

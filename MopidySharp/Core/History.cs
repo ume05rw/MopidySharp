@@ -1,5 +1,6 @@
 ﻿using Mopidy.Models;
 using Mopidy.Models.JsonRpcs;
+using Mopidy.Models.JsonRpcs.Interfaces;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -17,7 +18,7 @@ namespace Mopidy.Core
         private const string MethodGetHistory = "core.history.get_history";
         private const string MethodGetLength = "core.history.get_length";
 
-        private static readonly QueryHttp _query = QueryHttp.Get();
+        private static readonly IQuery _query = Query.Get();
 
         /// <summary>
         /// Get the track history.

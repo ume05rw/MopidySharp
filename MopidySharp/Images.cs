@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Net.Http;
@@ -51,8 +50,8 @@ namespace Mopidy
                 }
                 catch (Exception ex)
                 {
-                    Debug.WriteLine(ex.Message);
-                    Debug.WriteLine(ex.StackTrace);
+                    Console.WriteLine(ex.Message);
+                    Console.WriteLine(ex.StackTrace);
 
                     return null;
                 }
@@ -66,8 +65,8 @@ namespace Mopidy
                     }
                     catch (Exception ex)
                     {
-                        Debug.WriteLine(ex.Message);
-                        Debug.WriteLine(ex.StackTrace);
+                        Console.WriteLine(ex.Message);
+                        Console.WriteLine(ex.StackTrace);
 
                         return null;
                     }

@@ -1,4 +1,5 @@
 ﻿using Mopidy.Models.JsonRpcs;
+using Mopidy.Models.JsonRpcs.Interfaces;
 using Newtonsoft.Json.Linq;
 using System.Threading.Tasks;
 
@@ -17,7 +18,7 @@ namespace Mopidy.Core
         private const string MethodGetVolume = "core.mixer.get_volume";
         private const string MethodSetVolume = "core.mixer.set_volume";
 
-        private static readonly QueryHttp _query = QueryHttp.Get();
+        private static readonly IQuery _query = Query.Get();
 
         /// <summary>
         /// Get mute state.

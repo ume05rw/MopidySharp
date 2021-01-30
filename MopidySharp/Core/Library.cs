@@ -1,5 +1,6 @@
 using Mopidy.Models;
 using Mopidy.Models.JsonRpcs;
+using Mopidy.Models.JsonRpcs.Interfaces;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -264,7 +265,7 @@ namespace Mopidy.Core
         }
 
 
-        private static readonly Models.JsonRpcs.QueryHttp _query = Models.JsonRpcs.QueryHttp.Get();
+        private static readonly IQuery _query = Models.JsonRpcs.Query.Get();
 
         /// <summary>
         /// Browse directories and tracks at the given uri.

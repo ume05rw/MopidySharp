@@ -40,6 +40,7 @@ namespace MopidySharpTest.Bases
                     .DeserializeObject<MopidySharpTest.Settings.Settings>(json);
             }
 
+            Mopidy.Settings.ConnectionMethod = Mopidy.Settings.Connection.WebSocket;
             Mopidy.Settings.ServerAddress = TestBase._settings.ServerAddress;
             Mopidy.Settings.Port = TestBase._settings.Port;
         }
