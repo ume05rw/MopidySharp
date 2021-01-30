@@ -42,13 +42,13 @@ namespace Mopidy.Models.EventArgs.Interfaces
 
                         return args;
                     }
-                case EventArgs.OnEventEventArgs.EventName:
-                    {
-                        var args = new OnEventEventArgs();
-                        serializer.Populate(jReader, args);
+                //case EventArgs.OnEventEventArgs.EventName:
+                //    {
+                //        var args = new OnEventEventArgs();
+                //        serializer.Populate(jReader, args);
 
-                        return args;
-                    }
+                //        return args;
+                //    }
                 case EventArgs.OptionsChangedEventArgs.EventName:
                     {
                         var args = new OptionsChangedEventArgs();
@@ -151,9 +151,15 @@ namespace Mopidy.Models.EventArgs.Interfaces
         }
     }
 
+    /// <summary>
+    /// EventArgs Interface
+    /// </summary>
     [JsonConverter(typeof(EventArgsConverter))]
     public interface IEventArgs : IRecieved
     {
+        /// <summary>
+        /// Event Name
+        /// </summary>
         string Event { get; set; }
     }
 }

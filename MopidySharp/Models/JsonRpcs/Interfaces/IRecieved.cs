@@ -49,6 +49,9 @@ namespace Mopidy.Models.JsonRpcs.Interfaces
         }
     }
 
+    /// <summary>
+    /// Parser for incoming data from WebSocket
+    /// </summary>
     [JsonConverter(typeof(RecievedConverter))]
     public interface IRecieved
     {

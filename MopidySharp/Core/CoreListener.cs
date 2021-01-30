@@ -29,15 +29,15 @@ namespace Mopidy.Core
                 return;
             }
 
-            if (eventArgs is OnEventEventArgs)
-            {
-                CoreListener.OnEvent?.Invoke(
-                    CoreListener._instance,
-                    (OnEventEventArgs)eventArgs
-                );
-
-                return;
-            }
+            //if (eventArgs is OnEventEventArgs)
+            //{
+            //    CoreListener.OnEvent?.Invoke(
+            //        CoreListener._instance,
+            //        (OnEventEventArgs)eventArgs
+            //    );
+            //
+            //    return;
+            //}
 
             if (eventArgs is OptionsChangedEventArgs)
             {
@@ -189,14 +189,14 @@ namespace Mopidy.Core
         /// </remarks>
         public static EventHandler<MuteChangedEventArgs> MuteChanged;
 
-        /// <summary>
-        /// OnEvent
-        /// </summary>
-        /// <remarks>
-        /// Called on all events.
-        /// https://docs.mopidy.com/en/latest/api/core/#mopidy.core.CoreListener.on_event
-        /// </remarks>
-        public static EventHandler<OnEventEventArgs> OnEvent;
+        ///// <summary>
+        ///// OnEvent ** Unable to receive? **
+        ///// </summary>
+        ///// <remarks>
+        ///// Called on all events.
+        ///// https://docs.mopidy.com/en/latest/api/core/#mopidy.core.CoreListener.on_event
+        ///// </remarks>
+        //public static EventHandler<OnEventEventArgs> OnEvent;
 
         /// <summary>
         /// OptionsChanged
