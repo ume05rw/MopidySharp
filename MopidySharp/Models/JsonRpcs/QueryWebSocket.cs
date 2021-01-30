@@ -27,15 +27,12 @@ namespace Mopidy.Models.JsonRpcs
 
         private class ResponseSet
         {
-            //public int Id { get; private set; }
-
             public Task<JsonRpcParamsResponse> ResponseTask { get; private set; }
 
             private JsonRpcParamsResponse response;
 
             public ResponseSet()
             {
-                //this.Id = id;
                 this.ResponseTask = new Task<JsonRpcParamsResponse>(() =>
                 {
                     return this.response;
@@ -64,7 +61,6 @@ namespace Mopidy.Models.JsonRpcs
                 {
                 }
 
-                //this.Id = default;
                 this.ResponseTask = null;
                 this.response = null;
             }
@@ -157,22 +153,24 @@ namespace Mopidy.Models.JsonRpcs
                         break;
                     }
 
-                    var result = new MemoryStream();
-                    result.Write(buffer, 0, recieved.Count);
-
-                    while (!recieved.EndOfMessage)
+                    using (var result = new MemoryStream())
                     {
-                        buffer = new byte[QueryWebSocket.MessageBufferSize];
-                        segment = new ArraySegment<byte>(buffer);
-                        recieved = await client.ReceiveAsync(
-                            segment,
-                            CancellationToken.None
-                        );
-
                         result.Write(buffer, 0, recieved.Count);
-                    }
 
-                    this.ParseRecieved(result);
+                        while (!recieved.EndOfMessage)
+                        {
+                            buffer = new byte[QueryWebSocket.MessageBufferSize];
+                            segment = new ArraySegment<byte>(buffer);
+                            recieved = await client.ReceiveAsync(
+                                segment,
+                                CancellationToken.None
+                            );
+
+                            result.Write(buffer, 0, recieved.Count);
+                        }
+
+                        this.ParseRecieved(result);
+                    }
                 }
 
                 this._client = null;
@@ -239,14 +237,13 @@ namespace Mopidy.Models.JsonRpcs
                 {
                     var resSet = this._responseDictionary[id];
                     resSet.CompleteTask(response);
-
-                    this._responseDictionary.TryRemove(id, out ResponseSet tmp);
+                    this._responseDictionary.TryRemove(id, out _);
                 }
             }
 
             if (recieved is IEventArgs)
             {
-                //Debug.WriteLine($"Event Recieved: {json}");
+                //System.Diagnostics.Debug.WriteLine($"Event Recieved: {json}");
                 CoreListener.FireEvent((IEventArgs)recieved);
             }
         }
